@@ -1,4 +1,6 @@
-:-module(ai1,[ask_move_ai1/3]).
+:-module(ai1,[]).
+% Usage : ask_move(xMove,yMove,layObstacle).
+% Behavior of ai1 : lay an obstacle, then, move x+1 and y+1
+ask_move(1,1,true). 
 
-ask_move_ai1(xMove,yMove,layObstacle).
-ask_move_ai1(1,1,true). % Lay obstacle at current position, then, move x+1 and y+1
+
