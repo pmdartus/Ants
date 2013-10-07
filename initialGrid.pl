@@ -1,5 +1,12 @@
-/* TODO : Modéliser la grille avec des prédicats "case"
-*/
+% TODO : Modéliser la grille avec des prédicats "case"
+
+
+%Dimensions de la grille: 36X36
+
+
+%Position initiale des joueurs:
+%-J1 -> 18;2
+%-J2 -> 18;33
 
 
 Case(18,2,0,Joueur1).
@@ -9,6 +16,9 @@ Case(18,33,0,Joueur2).
 Case(18,2,0,base1).
 
 Case(18,33,0,base2).
+
+
+%Position des resources: Rsc1 -> ressource joueur1, Rsc2 -> ressource joueur2
 
 Case(1,33,0,Rsc1).
 
@@ -21,6 +31,8 @@ Case(1,2,0,Rsc2).
 Case(19,16,0,Rsc2).
 
 Case(34,15,0,Rsc2).
+
+
 
 %Obstacle droit
 
