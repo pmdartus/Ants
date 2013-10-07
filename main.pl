@@ -1,3 +1,3 @@
 
-:-  [grilleInitiale].
+:-  [initialGrid].
 
