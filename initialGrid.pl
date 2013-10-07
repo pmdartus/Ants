@@ -1,6 +1,8 @@
 % TODO : Modéliser la grille avec des prédicats "case"
 
 %Dimensions de la grille: 36X36
+%Ligne à TESTER!!! puis reproduire pour générer les bordures
+Case(X,Y,0,bord):-X==-1,Y<36.
 
 %Position initiale des joueurs:
 %-J1 -> 18;2
