@@ -1,4 +1,6 @@
-% TODO : Modéliser la grille avec des prédicats "case"
+% case(Xposition, Yposition, ?, Type)
+%% Prédicat pour stocker les positions des elements
+%% Type peut prendre les valeurs joueur1, joueur2, rsc1, rsc2, obstacle
 
 %Dimensions de la grille: 36X36
 case(X,Y,_,bord):-	X=:=0 , Y=<36 ;
