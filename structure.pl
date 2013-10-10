@@ -1,7 +1,12 @@
 
 % Using Board as the main data structure : 
 
-ants(Board) :- game(Board,1).
+ants(Board) :- game(
+[
+e,e,e,
+w,e,e,
+e,e,w
+],1).
 
 % And 2nd parameter represents player who is turn
 game(Board , _) :- win(1, Board),write('p1 win!'),nl.
