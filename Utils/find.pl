@@ -1,9 +1,10 @@
-    find([],N) :-
-        write("There is no such element in the list"),nl.
-        
-    find([Element|List],1) :-
-        write("The element is ",Element),nl.
-        
-    find([Element|List],N) :-
-        N1 = N-1,
-        find(List,N1).
+:-module(find,
+	[
+		get_board/3
+	]).
+
+% get_player_board(+Player, +Board, -PlayerBoard)
+%
+% Return  the general board for Player = 0 
+% or the selected player board Player = 1 or 2
+get_board(Player,Board,PlayerBoard) :- nth0(Player,Board,PlayerBoard).
