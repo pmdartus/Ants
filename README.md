@@ -6,10 +6,13 @@ IA prolog project
 
 All the conception is stored in the [Google document](https://docs.google.com/document/d/1LpDH--g-D9eTXZO6XlnVWhH_4qXhMtSAfXB8c5sNjio/edit?usp=sharing)
 
-## RUNNING : 
-        swipl -s main.pl
+## RUNNING:
 
+‘‘‘ 
+	swipl -s main2.pl -g "ants, halt." : Launch the program with the default grid and return to terminal at the end
+	swipl -s main2.pl -g "ants(GRID), halt." : Launch the program with the array passed in parameter and return to terminal
+‘‘‘
 
 ## TESTING:
 
-> Checkout [PLlUnit](http://www.swi-prolog.org/pldoc/package/plunit.html) 
+See later aligator
