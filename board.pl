@@ -1,7 +1,7 @@
 :- module(board,[
 	board_length/1, default_board/1, 
 	resources1/2, resources2/2, pos_p1/2, pos_p2/2, walls/2, 
-	display_board/1
+	display_board/1,get_element_at_position/3
 	]).
 % ----------------------------------------
 %             Constantes
@@ -28,6 +28,16 @@ resources2([_,_,_,_,Resources2],Resources2).
 pos_p1([Player1_pos,_,_,_,_],Player1_pos).
 pos_p2([_,Player2_pos,_,_,_],Player2_pos).
 walls([_,_,Walls,_,_],Walls).
+
+% get_element_at_position(+Board, +Position, -Type)
+% Retun the type of the element in position Position
+
+get_element_at_position(Board, Position, Type):- walls(Board,Walls), member(Position, Walls), Type=walls.
+get_element_at_position(Board, Position, Type):- resources1(Board,R1), member(Position,R1), Type=resource1.
+get_element_at_position(Board, Position, Type):- resources2(Board,R2), member(Position,R2), Type=resource2.
+get_element_at_position(Board, Position, Type):- pos_p1(Board, Position), Type=p1.
+get_element_at_position(Board, Position, Type):- pos_p2(Board, Position), Type=p2.
+get_element_at_position(Board, Position, Type):- Type=empty.
 
 
 % display_board(+Board)
