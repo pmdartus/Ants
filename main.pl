@@ -13,8 +13,8 @@ play2(Board , NewBoard) :- ai2:play(Board,NewBoard), write('p2 plays, board is n
 
 
 % Define win conditions
-win(1,Board) :- pos_p1(Board,P),P=3 .
-win(2,Board) :- pos_p2(Board,P),P=3 .
+win(1,Board) :- pos_p1(Board,P),P=10 .
+win(2,Board) :- pos_p2(Board,P),P=10 .
 
 % Stop game if 1 player wins
 game(Board , _) :- win(1, Board),display_board(Board),write('p1 win!'),nl.
