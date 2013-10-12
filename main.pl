@@ -24,7 +24,7 @@ game(Board , _) :- win(2, Board),display_board(Board),write('p2 win!'),nl.
 game(Board , 1) :- play1(Board , NewBoard), game(NewBoard , 2). 
 game(Board , 2) :- play2(Board , NewBoard), game(NewBoard , 1).
 
-
+available_moves(Board,Player,Moves):-
 
 
 

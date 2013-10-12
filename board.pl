@@ -52,16 +52,13 @@ display_board(Board) :- nl, display_element(Board, 1).
 % display_element(+Board, +Index)
 % Display the element at the selected index ( begin at 1 )
 display_element(_, Index) :- board_length(Length), Index > Length * Length, nl. 
-display_element(Board, Index) :-  pos_p1(Board,Pos), 
-                                member(Index, [Pos]), 
+display_element(Board, Index) :- get_element_at_position(Board, Index, p1), 
                                 write('1'), 
                                 NewIndex is Index+1, next_display(Index), display_element(Board , NewIndex).
-display_element(Board, Index) :-  pos_p2(Board,Pos), 
-                                member(Index, [Pos]), 
+display_element(Board, Index) :- get_element_at_position(Board, Index, p2),  
                                 write('2'), 
                                 NewIndex is Index+1, next_display(Index), display_element(Board , NewIndex).
-display_element(Board, Index) :-  walls(Board,Pos), 
-                                member(Index, Pos), 
+display_element(Board, Index) :- get_element_at_position(Board, Index, walls), 
                                 write('M'), 
                                 NewIndex is Index+1, next_display(Index), display_element(Board , NewIndex).
 display_element(Board, Index) :-  write('_'), 
