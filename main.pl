@@ -3,13 +3,13 @@
 :- [board].
 
 
-ants :- default_board(Board), write('Initial board is :     '),nl,display_board(Board, 1),game(Board,1).
-ants(Board) :-  write('Initial board is :     '),nl,display_board(Board, 1),nl,game(Board,1).
+ants :- default_board(Board), write('Initial board is :     '),display_board(Board),game(Board,1).
+ants(Board) :-  write('Initial board is :     '),display_board(Board),nl,game(Board,1).
 
 
 %Choose AI
-play1(Board , NewBoard) :- ai1:play(Board,NewBoard), write('p1 plays, board is now :'),nl,display_board(Board, 1),nl.
-play2(Board , NewBoard) :- ai2:play(Board,NewBoard), write('p2 plays, board is now :'),nl,display_board(Board, 1),nl.
+play1(Board , NewBoard) :- ai1:play(Board,NewBoard), write('p1 plays, board is now :'),display_board(Board),nl.
+play2(Board , NewBoard) :- ai2:play(Board,NewBoard), write('p2 plays, board is now :'),display_board(Board),nl.
 
 
 % Define win conditions
@@ -17,28 +17,9 @@ win(1,Board) :- pos_p1(Board,P),P=3 .
 win(2,Board) :- pos_p2(Board,P),P=3 .
 
 % Stop game if 1 player wins
-game(Board , _) :- win(1, Board),nl,display_board(Board, 1),write('p1 win!'),nl.
-game(Board , _) :- win(2, Board),nl,display_board(Board, 1),write('p2 win!'),nl.
+game(Board , _) :- win(1, Board),display_board(Board),write('p1 win!'),nl.
+game(Board , _) :- win(2, Board),display_board(Board),write('p2 win!'),nl.
 
 % Play and switch turns
 game(Board , 1) :- play1(Board , NewBoard), game(NewBoard , 2). 
 game(Board , 2) :- play2(Board , NewBoard), game(NewBoard , 1).
-
-display_board(_, Index) :- board_length(Length), Index > Length * Length, nl. 
-display_board(Board, Index) :-  pos_p1(Board,Pos), 
-                                member(Index, [Pos]), 
-                                write('1'), 
-                                NewIndex is Index+1, next_display(Index), display_board(Board , NewIndex).
-display_board(Board, Index) :-  pos_p2(Board,Pos), 
-                                member(Index, [Pos]), 
-                                write('2'), 
-                                NewIndex is Index+1, next_display(Index), display_board(Board , NewIndex).
-display_board(Board, Index) :-  walls(Board,Pos), 
-                                member(Index, Pos), 
-                                write('M'), 
-                                NewIndex is Index+1, next_display(Index), display_board(Board , NewIndex).
-display_board(Board, Index) :-  write('_'), 
-                                NewIndex is Index+1, next_display(Index), display_board(Board , NewIndex).
-
-next_display(Index) :- board_length(Length), Index mod Length =:= 0, nl. 
-next_display(Index) :- write(' '). 
