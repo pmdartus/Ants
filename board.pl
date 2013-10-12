@@ -1,3 +1,8 @@
+:- module(board,[
+	board_length/1, default_board/1, 
+	resources1/2, resources2/2, pos_p1/2, pos_p2/2, walls/2, 
+	display_board/1
+	]).
 % ----------------------------------------
 %             Constantes
 % ----------------------------------------

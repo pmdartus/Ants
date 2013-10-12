@@ -1,6 +1,6 @@
 :-  use_module(ai1).
 :-  use_module(ai2).
-:- [board].
+:-  use_module(board).
 
 
 ants :- default_board(Board), write('Initial board is :     '),display_board(Board),game(Board,1).
