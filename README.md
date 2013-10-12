@@ -9,8 +9,8 @@ All the conception is stored in the [Google document](https://docs.google.com/do
 ## RUNNING:
 
 ‘‘‘ 
-	swipl -s main2.pl -g "ants, halt." : Launch the program with the default grid and return to terminal at the end
-	swipl -s main2.pl -g "ants(GRID), halt." : Launch the program with the array passed in parameter and return to terminal
+	swipl -s main.pl -g "ants, halt." : Launch the program with the default grid and return to terminal at the end
+	swipl -s main.pl -g "ants(GRID), halt." : Launch the program with the array passed in parameter and return to terminal
 ‘‘‘
 
 ## TESTING:
