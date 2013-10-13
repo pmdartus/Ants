@@ -9,8 +9,8 @@ ants(Board) :-  write('Initial board is :     '),display_board(Board),nl,game(Bo
 
 
 %Choose AI
-play1(Board , NewBoard) :- available_moves(Board, 1, Moves), ai_basic:play(Board, Moves, NewBoard), write('p1 plays, board is now :'),display_board(Board),nl.
-play2(Board , NewBoard) :- ai2:play(Board,NewBoard), write('p2 plays, board is now :'),display_board(Board),nl.
+play1(Board , NewBoard) :- available_moves(Board, 1, Moves), ai_basic:play(Board, 1, Moves, NewBoard), write('p1 plays, board is now :'),display_board(Board),nl.
+play2(Board , NewBoard) :- available_moves(Board, 2, Moves), ai_basic:play(Board, 2, Moves, NewBoard), write('p2 plays, board is now :'),display_board(Board),nl.
 
 % Define win conditions
 win(1,Board) :- pos_p1(Board,P),P=10 .
