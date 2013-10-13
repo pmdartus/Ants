@@ -7,6 +7,15 @@ Two player game's, AI project written in prolog.
 It a 2 players game where the goal is the take all the ressources hidden in the map and take it back the his base.
 The first player who brought all his resources to his base win the round.
 
+## FILE STRUCTURE
+
+```
+	main.pl            Generic game comportements
+	board.pl           Board initialisation and manipulation
+	players.pl         Players status update
+	ai_basic.pl        AI playing random moves
+```
+
 ## RUNNING:
 
 The program run on `swi-prolog` [Download](http://www.swi-prolog.org/download/stable).
