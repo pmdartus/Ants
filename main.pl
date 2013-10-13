@@ -12,8 +12,8 @@
 ants :- default_board(Board), write('Initial board is :     '),display_board(Board),game(Board,1).
 
 % ants(+Board).
-% Launch the game with a cutom Board
-ants(Board) :-  write('Initial board is :     '),display_board(Board),nl,game(Board,1).
+% Launch the game with a custom Board
+ants(Board) :- write('Initial board is :     '),display_board(Board),nl,game(Board,1).
 
 
 % ----------------------------------------

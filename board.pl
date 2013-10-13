@@ -8,12 +8,12 @@
 % ----------------------------------------
 
 % Default board structure (4x4 size)
-%   w w w w w w
-%	w 1 _ _ w w
-%	w w _ _ w w
-%	w 2 _ w _ w
-%	w w _ _ w w
-%   w w w w w w
+%  1/  w w w w w w
+%  7/  w 1 _ _ w w
+% 13/  w w _ _ w w
+% 19/  w 2 _ w _ w
+% 25/  w w _ _ w w
+% 31/  w w w w w w
 
 board_length(X):- X is 6.
 default_board(Board):- Board = [8,20,[1,2,3,4,5,6,7,11,12,13,14,17,18,19,22,24,25,26,29,30,31,32,33,34,35,36],[],[]].

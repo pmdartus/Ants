@@ -6,7 +6,7 @@
 % ----------------------------------------
 
 % play(+Board, +Player, +Move, -NewBoard)
-% Return in new Board, the next postion of the player
+% Return in new Board, the next position of the player
 play(Board, Player, Moves, NewBoard):-
 	length(Moves, Length),
 	Index is random(Length),

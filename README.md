@@ -16,6 +16,14 @@ The first player who brought all his resources to his base win the round.
 	ai_basic.pl        AI playing random moves
 ```
 
+## API
+
+The board is defined by a table:
+
+```
+	Board = [Player1_pos, Player2_pos, Walls, Resources1, Resources2]
+```
+
 ## RUNNING:
 
 The program run on `swi-prolog` [Download](http://www.swi-prolog.org/download/stable).
