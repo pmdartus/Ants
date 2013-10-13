@@ -39,7 +39,7 @@ get_element_at_position(Board, Position, Type):- resources1(Board,R1), member(Po
 get_element_at_position(Board, Position, Type):- resources2(Board,R2), member(Position,R2), Type=resource2.
 get_element_at_position(Board, Position, Type):- pos_p1(Board, Position), Type=p1.
 get_element_at_position(Board, Position, Type):- pos_p2(Board, Position), Type=p2.
-get_element_at_position(Board, Position, Type):- Type=empty.
+get_element_at_position(_, _, Type):- Type=empty.
 
 
 % display_board(+Board)
@@ -69,4 +69,4 @@ display_element(Board, Index) :-  write('_'),
 % next_display(+Index)
 % Select if the at this index it should break or not
 next_display(Index) :- board_length(Length), Index mod Length =:= 0, nl. 
-next_display(Index) :- write(' '). 
+next_display(_) :- write(' '). 
