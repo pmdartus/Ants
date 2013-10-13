@@ -26,8 +26,8 @@ available_moves(Board,2,Moves) :-
 
 % update_user_position(+Board, +Player, +NewPosition, -NewBoard)
 % Update the postion of the selected user and return it into NewBoard 
-update_user_position([_, Pos2, Walls, R1, R2], 1, NewPosition, [NewPosition, Pos2, Walls, R1, R2]).
-update_user_position([Pos1, _, Walls, R1, R2], 2, NewPosition, [Pos1, NewPosition, Walls, R1, R2]).
+update_user_position([_, Pos2, Walls, R1, R2], 1, NewPosition, [NewPosition, Pos2, Walls, R1, R2]) :- write('Player 1 move to :'), write(NewPosition), nl.
+update_user_position([Pos1, _, Walls, R1, R2], 2, NewPosition, [Pos1, NewPosition, Walls, R1, R2]) :- write('Player 2 move to :'), write(NewPosition), nl.
 
 
 % ----------------------------------------
@@ -36,7 +36,7 @@ update_user_position([Pos1, _, Walls, R1, R2], 2, NewPosition, [Pos1, NewPositio
 
 % move_right(+Board, +ActualPos, ?Moves)
 % Add in Moves the right position if the move if possible
-move_right(Board, Pos1, Moves):- Right is Pos1 + 1, get_element_at_position(Board, Right, Elem), Elem \== walls, Elem \== p1, Elem \== p2, !, Moves = [Right].
+move_right(Board, Pos1, Moves):- Right is Pos1 + 1, get_element_at_position(Board, Right, Elem), Elem \== walls, Elem \== p1, Elem \== p2, !, Moves = [Pos1, Right].
 move_right(_, _, _).
 
 % move_left(+Board, +ActualPos, +Possible_moves, ?NewMoves)
