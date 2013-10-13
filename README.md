@@ -22,10 +22,10 @@ The program run on `swi-prolog` [Download](http://www.swi-prolog.org/download/st
 
 ### Command-line launch
 
-‘‘‘ 
+```
 	swipl -s main.pl -g "ants, halt." : Launch the program with the default grid and return to terminal at the end
 	swipl -s main.pl -g "ants(GRID), halt." : Launch the program with the array passed in parameter and return to terminal
-‘‘‘
+```
 
 ### Swi-prolog interface
 
