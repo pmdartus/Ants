@@ -1,6 +1,7 @@
-:-  use_module(ai1).
+:-  use_module(ai_basic).
 :-  use_module(ai2).
 :-  use_module(board).
+:-  use_module(players).
 
 
 ants :- default_board(Board), write('Initial board is :     '),display_board(Board),game(Board,1).
@@ -8,9 +9,8 @@ ants(Board) :-  write('Initial board is :     '),display_board(Board),nl,game(Bo
 
 
 %Choose AI
-play1(Board , NewBoard) :- ai1:play(Board,NewBoard), write('p1 plays, board is now :'),display_board(Board),nl.
+play1(Board , NewBoard) :- available_moves(Board, 1, Moves), ai_basic:play(Board, Moves, NewBoard), write('p1 plays, board is now :'),display_board(Board),nl.
 play2(Board , NewBoard) :- ai2:play(Board,NewBoard), write('p2 plays, board is now :'),display_board(Board),nl.
-
 
 % Define win conditions
 win(1,Board) :- pos_p1(Board,P),P=10 .
@@ -23,9 +23,3 @@ game(Board , _) :- win(2, Board),display_board(Board),write('p2 win!'),nl.
 % Play and switch turns
 game(Board , 1) :- play1(Board , NewBoard), game(NewBoard , 2). 
 game(Board , 2) :- play2(Board , NewBoard), game(NewBoard , 1).
-
-available_moves(Board,Player,Moves):-
-
-
-
-

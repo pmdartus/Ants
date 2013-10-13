@@ -34,7 +34,7 @@ walls([_,_,Walls,_,_],Walls).
 % get_element_at_position(+Board, +Position, -Type)
 % Retun the type of the element in position Position
 
-get_element_at_position(Board, Position, Type):- walls(Board,Walls), member(Position, Walls), Type=walls.
+get_element_at_position(Board, Position, Type):- walls(Board,Walls), member(Position, Walls), !, Type=walls.
 get_element_at_position(Board, Position, Type):- resources1(Board,R1), member(Position,R1), Type=resource1.
 get_element_at_position(Board, Position, Type):- resources2(Board,R2), member(Position,R2), Type=resource2.
 get_element_at_position(Board, Position, Type):- pos_p1(Board, Position), Type=p1.
