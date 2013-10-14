@@ -36,7 +36,7 @@ load(Path) :- open(Path,read,Stream),
 % ----------------------------------------
 
 % ----------------------------------------
-%           Saving subfunctions
+%           Save subfunctions
 
 % save_board(+Board)
 % Save the board passed in argument into a stream
@@ -65,28 +65,44 @@ next_display(_, Stream) :- write(Stream, ' ').
 
 
 % ----------------------------------------
-%           Loading subfunctions 
+%           Load subfunctions 
 
 % read_element(-RawBoard, +Stream)
 % Read a line into the file
-read_element(RawBoard, Stream) :- at_end_of_stream(Stream), update_board(RawBoard).
+read_element(RawBoard, Stream) :-
+	at_end_of_stream(Stream),
+	get_size(RawBoard, RawBoard_noSize, Size), update_board_size(Size),
+	find_indexes(RawBoard_noSize),
+	display_board(Board).
 read_element(RawBoard, Stream) :- read_line_to_codes(Stream,RawBoard_loaded), append(RawBoard, RawBoard_loaded, RawBoard_new), !, read_element(RawBoard_new, Stream).
 
 
-
-% ---------- Transforming a list of char into a board ----------------
 % ASCII Code:
 % W :  87, - : 45
 % 1 : 49, 2 : 50
 % R : 82, S : 83
 % B : 66, C : 67
-% espace : 32
+% / : 47, espace : 32
+% 0 : 48 -> 9 : 57
 
-% create_board(+RawBoard, -Board)
-create_board(RawBoard, Board) :- find_indexes(RawBoard, Board), write(Board), update_board(Board).
+% ---------- Get the board size ----------------
 
-% Find all the other indexes (not walls) and return the new board
-find_indexes(RawBoard, Board) :-
+% get_size(+RawBoard_full, -RawBoard, -Size)
+% Get the size from the readed board
+get_size(RawBoard_full, RawBoard, Size) :- split(RawBoard_full, 47, RawBoard, Size_raw), real_size(Size_raw, Size).
+
+% TO BE DONE
+% Return the real size in decimal
+real_size([], Size) :- true.
+real_size([F_raw | Size_raw], Size, I) :-
+	F is F_raw-48, Size_new is F*(I*10)+Size,
+	I_new is I+1, real_size(Size_raw, Size_new, I_new).
+
+% ---------- Transforming a list of char into a board ----------------
+
+% find_indexes(+RawBoard)
+% Find all the other indexes (not walls) and update the new board
+find_indexes(RawBoard) :-
 	% Walls
 	find_items(Walls, RawBoard, 87),
 	% J1, J2
@@ -102,11 +118,13 @@ find_indexes(RawBoard, Board) :-
 % Update the board predicate with the new one
 update_board(Board) :-
 	% Update board table
-	retractall(board/1), assert(board(Board)),
+	retractall(board/1), assert(board(Board)).
+
+% update_board_size(+RawBoard)
+% Update the board size predicate
+update_board_size(Size) :-
 	% Update board size
-	%retractall(board_length/1), length(Board, Board_length), Board_size is Board_length/2, write(Board_size), assert(board_length(Board_size)),
-	%Finally display it
-	%display_board(Board).
+	retractall(board_length/1), assert(board_length(Size)).
 
 
 % -------------- Finding a list of char position ----------------------
