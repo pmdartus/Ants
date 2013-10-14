@@ -2,6 +2,7 @@
 :-  use_module(ai2).
 :-  use_module(board).
 :-  use_module(players).
+:-  use_module(file).
 
 % ----------------------------------------
 %           Public Methods
