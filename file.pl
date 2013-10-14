@@ -2,6 +2,9 @@
 	save/2, load/1
 	]).
 
+% temp memory between find_items/3 and find_items/4 made by an assert into tempsItems.
+:- dynamic tempsItems/1.
+
 
 % ----------------------------------------
 %           Public Methods
@@ -23,6 +26,9 @@ load(Path) :- open(Path,read,Stream),
 	read_element(RawBoard, Stream),
   close(Stream),
   write('Done'), nl.
+
+
+
 
 
 % ----------------------------------------
@@ -56,6 +62,8 @@ save_element(Board, Index, Stream) :-  write(Stream, '_'),
 next_display(Index, Stream) :- board_length(Length), Index mod Length =:= 0, write(Stream, '\n'). 
 next_display(_, Stream) :- write(Stream, ' ').
 
+
+
 % ----------------------------------------
 %           Loading subfunctions 
 
@@ -65,55 +73,67 @@ read_element(RawBoard, Stream) :- at_end_of_stream(Stream), update_board(RawBoar
 read_element(RawBoard, Stream) :- read_line_to_codes(Stream,RawBoard_loaded), append(RawBoard, RawBoard_loaded, RawBoard_new), !, read_element(RawBoard_new, Stream).
 
 
-% update_board(+RawBoard)
-% Update the board predicate with the new one
-update_board(RawBoard) :- create_board(RawBoard, Board), display_board(Board).
 
-%create_board(+RawBoard, -Board)
-create_board(RawBoard, Board) :- write(RawBoard).
-%find_allindexes(RawbBard,Indexj1,Indexj2,Walls,IndexR,IndexS,IndexB,IndexC,Board).
-%retract(board), assert(board(Board)).
-% with Board = [Indexj1,Indexj2,Walls,IndexR,IndexS,IndexB,IndexC]
-
-
+% ---------- Transforming a list of char into a board ----------------
 % ASCII Code:
-% W :  87, _ : 95
+% W :  87, - : 45
 % 1 : 49, 2 : 50
 % R : 82, S : 83
 % B : 66, C : 67
-% espace : 32 
+% espace : 32
 
-%Find all the walls
+% create_board(+RawBoard, -Board)
+create_board(RawBoard, Board) :- find_indexes(RawBoard, Board), write(Board), update_board(Board).
 
-%find_allindexes(RawBoard,Indexj1+1,Indexj2+1,Walls,IndexR,IndexS,IndexB+1,IndexC+1) :- nth0(Indexj1,Rawboard,49),nth0(Indexj2,Rawboard,50), find_Walls(Rawboard,Walls),find_indexR(Rawboard,IndexR),find_indexS(Rawboard,IndexS), nth0(IndexB,Rawboard,66),nth0(IndexC,Rawboard,67).
+% Find all the other indexes (not walls) and return the new board
+find_indexes(RawBoard, Board) :-
+	% Walls
+	find_items(Walls, RawBoard, 87),
+	% J1, J2
+	nth0(IndexJ1,RawBoard,49), nth0(IndexJ2,RawBoard,50),
+	% R, S
+	find_items(IndexR, RawBoard, 82), find_items(IndexS, RawBoard, 83),
+	% B, C
+	%	nth0(IndexB,Rawboard,66), nth0(IndexC,Rawboard,67),
+	% Call board update
+	update_board([IndexJ1, IndexJ2, Walls, IndexR, IndexS]).
 
-find_walls(RawBoard, Walls, I) :- length(RawBoard,0), write(Walls).
-find_walls(RawBoard, Walls, I) :-
-	nth0(Wall_found,RawBoard,87), !, I1 is I+1,
-	Wall_actual is Wall_found+I1, append([Wall_actual], Walls, Walls_new),
-	split(RawBoard, 87, _, RawBoard_new),
-	find_walls(RawBoard_new, Walls_new, I1).
+% update_board(+RawBoard)
+% Update the board predicate with the new one
+update_board(Board) :-
+	% Update board table
+	retractall(board/1), assert(board(Board)),
+	% Update board size
+	%retractall(board_length/1), length(Board, Board_length), Board_size is Board_length/2, write(Board_size), assert(board_length(Board_size)),
+	%Finally display it
+	%display_board(Board).
 
+
+% -------------- Finding a list of char position ----------------------
+
+% find_items(+RawBoard, +ASCICode)
+% Find all the items corresponding to the ASCIcode, and return a list of their positions.
+% NB 1/ Stored with an assert into tempItems.
+% NB 2/ [] if code never found!
+% NB 3/ based on find_items_i/4
+find_items(Items, RawBoard, ASCICode) :- find_items_i(RawBoard, ASCICode, [], 0), tempsItems(Items), retract(tempsItems(Items)).
+
+% find_items_i(+RawBoard, +ASCICode, -Items, +I)
+% see find_items/2
+find_items_i(RawBoard, ASCIcode, Items, I) :-
+	% Break condition.
+	not(nth0(Item_found, RawBoard, ASCIcode)),
+	%DEBUG
+	write(Items),
+	assert(tempsItems(Items)).
+% Get the item position and recursive call on the rest of the list.
+find_items_i(RawBoard, ASCIcode, Items, I) :-
+	nth0(Item_found, RawBoard, ASCIcode), !,
+	Item_actual is Item_found+I,
+	append([Item_actual], Items, Items_new),
+	split(RawBoard, ASCIcode, _, RawBoard_new),
+	I_new is Item_actual+1, find_items_i(RawBoard_new, ASCIcode, Items_new, I_new).
+
+% split(+List, +Pivot, -Left, -Right)
+% used to split a list on a special char (pivot) and return left and right member
 split(List, Pivot, Left, Right) :- append(Left, [Pivot|Right], List).
-
-
-%find_Indexes(RawBoard, I, Board) :- nth0(I,RawBoard,87), !, walls(%Board, Walls), find_next().
-%
-%find_next() :- find_Indexes(RawBoard_min, I1), I is I1-1.
-%
-%get_element_at_position(Board, Position, Type):- resources1(Board,%R1), memberType=walls(Position,R1), Type=resource1.
-%get_element_at_position(Board, Position, Type):- resources2(Board,%R2), member(Position,R2), Type=resource2.
-%get_element_at_position(Board, Position, Type):- pos_p1(Board, %Position), Type=p1.
-%get_element_at_position(Board, Position, Type):- pos_p2(Board, %Position), Type=p2.
-%get_element_at_position(_, _, Type):- Type=empty.
-%
-%
-
-
-
-
-
-
-
-
-
