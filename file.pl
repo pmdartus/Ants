@@ -1,5 +1,5 @@
 :- module(file,[
-	save/2, load/2
+	save/2, load/1
 	]).
 
 
@@ -18,11 +18,11 @@ save(Board, Path) :- open(Path,write,Stream), save_board(Board, Stream), nl(Stre
 % ----------------------------------------
 %           Loading from a file
 
-% Load(+Board, +Path)
-load(Path, Board) :- open(Path,read,Stream), 
+% Load(+Path)
+load(Path) :- open(Path,read,Stream), 
 	read_element(RawBoard, Stream),
   close(Stream),
-  write(RawBoard), nl.
+  write('Done'), nl.
 
 
 % ----------------------------------------
@@ -55,5 +55,29 @@ next_display(_, Stream) :- write(Stream, ' ').
 
 % read_element(-RawBoard, +Stream)
 % REad a line into the file
-read_element(RawBoard, Stream) :- at_end_of_stream(Stream), write(RawBoard).
+read_element(RawBoard, Stream) :- at_end_of_stream(Stream), update_board(RawBoard).
 read_element(RawBoard, Stream) :- read_line_to_codes(Stream,RawBoard_loaded), append(RawBoard, RawBoard_loaded, RawBoard_new), !, read_element(RawBoard_new, Stream).
+
+
+% update_board(+RawBoard)
+% Update the board predicate with the new one
+update_board(RawBoard) :- create_board(RawBoard, Board), display_board(Board).
+%retract(board), assert(board(Board)).
+
+%create_board(+RawBoard, -Board)
+%create_board(RawBoard, Board) :- find_allindexes(RawbBard,Indexj1,Indexj2,Walls,IndexR,IndexS,IndexB,IndexC,Board).
+% with Board = [Indexj1,Indexj2,Walls,IndexR,IndexS,IndexB,IndexC]
+
+find_allindexes(RawBoard,Indexj1+1,Indexj2+1,Walls,IndexR,IndexS,IndexB+1,IndexC+1) :- nth0(Indexj1,Rawboard,49),nth0(Indexj2,Rawboard,50), find_Walls(Rawboard,Walls),find_indexR(Rawboard,IndexR),find_indexS(Rawboard,IndexS), nth0(IndexB,Rawboard,66),nth0(IndexC,Rawboard,67).
+
+find_Walls(RawBoard,Walls) :- nth0(Walls_loaded,Rawboard,87),append(Walls,Walls_loaded,Walls_new), find_Walls(RawBoard,Walls_new).
+
+
+
+
+
+
+
+
+
+
