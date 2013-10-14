@@ -63,6 +63,12 @@ display_element(Board, Index) :- get_element_at_position(Board, Index, p2),
 display_element(Board, Index) :- get_element_at_position(Board, Index, walls), 
                                 write('M'), 
                                 NewIndex is Index+1, next_display(Index), display_element(Board , NewIndex).
+display_element(Board, Index) :- get_element_at_position(Board, Index, resource1), 
+                                write('X'), 
+                                NewIndex is Index+1, next_display(Index), display_element(Board , NewIndex).
+display_element(Board, Index) :- get_element_at_position(Board, Index, resource2), 
+                                write('Y'), 
+                                NewIndex is Index+1, next_display(Index), display_element(Board , NewIndex).
 display_element(Board, Index) :-  write(' '), 
                                 NewIndex is Index+1, next_display(Index), display_element(Board , NewIndex).
 
