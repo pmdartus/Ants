@@ -1,5 +1,5 @@
 :- module(file,[
-	save/2, load/1
+	save/2, load/2
 	]).
 
 % temp memory between find_items/3 and find_items/4 made by an assert into tempsItems.
@@ -21,9 +21,10 @@ save(Board, Path) :- open(Path,write,Stream), save_board(Board, Stream), nl(Stre
 % ----------------------------------------
 %           Loading from a file
 
-% Load(+Path)
-load(Path) :- open(Path,read,Stream), 
-	read_element(RawBoard, Stream),
+% Load(+Path, +Size)
+load(Path, Size) :- open(Path,read,Stream),
+	update_board_size(Size),
+	read_element(Stream, RawBoard),
   close(Stream),
   write('Done'), nl.
 
@@ -69,12 +70,11 @@ next_display(_, Stream) :- write(Stream, ' ').
 
 % read_element(-RawBoard, +Stream)
 % Read a line into the file
-read_element(RawBoard, Stream) :-
+read_element(Stream, RawBoard) :-
 	at_end_of_stream(Stream),
-	get_size(RawBoard, RawBoard_noSize, Size), update_board_size(Size),
-	find_indexes(RawBoard_noSize),
-	display_board(Board).
-read_element(RawBoard, Stream) :- read_line_to_codes(Stream,RawBoard_loaded), append(RawBoard, RawBoard_loaded, RawBoard_new), !, read_element(RawBoard_new, Stream).
+	find_indexes(RawBoard),
+	board:board(Board), display_board(Board).
+read_element(Stream, RawBoard) :- read_line_to_codes(Stream,RawBoard_loaded), append(RawBoard, RawBoard_loaded, RawBoard_new), !, read_element(Stream, RawBoard_new).
 
 
 % ASCII Code:
@@ -84,19 +84,6 @@ read_element(RawBoard, Stream) :- read_line_to_codes(Stream,RawBoard_loaded), ap
 % B : 66, C : 67
 % / : 47, espace : 32
 % 0 : 48 -> 9 : 57
-
-% ---------- Get the board size ----------------
-
-% get_size(+RawBoard_full, -RawBoard, -Size)
-% Get the size from the readed board
-get_size(RawBoard_full, RawBoard, Size) :- split(RawBoard_full, 47, RawBoard, Size_raw), real_size(Size_raw, Size).
-
-% TO BE DONE
-% Return the real size in decimal
-real_size([], Size) :- true.
-real_size([F_raw | Size_raw], Size, I) :-
-	F is F_raw-48, Size_new is F*(I*10)+Size,
-	I_new is I+1, real_size(Size_raw, Size_new, I_new).
 
 % ---------- Transforming a list of char into a board ----------------
 
@@ -116,15 +103,18 @@ find_indexes(RawBoard) :-
 
 % update_board(+RawBoard)
 % Update the board predicate with the new one
-update_board(Board) :-
+update_board(NewBoard) :-
 	% Update board table
-	retractall(board/1), assert(board(Board)).
+	retractall(board:board(_)), assert(board:board(NewBoard)),
+	%DEBUG
+	board:board(Board),
+	write(Board).
 
 % update_board_size(+RawBoard)
 % Update the board size predicate
 update_board_size(Size) :-
 	% Update board size
-	retractall(board_length/1), assert(board_length(Size)).
+	retractall(board:board_length(_)), assert(board:board_length(Size)).
 
 
 % -------------- Finding a list of char position ----------------------
@@ -142,7 +132,7 @@ find_items_i(RawBoard, ASCIcode, Items, I) :-
 	% Break condition.
 	not(nth0(Item_found, RawBoard, ASCIcode)),
 	%DEBUG
-	write(Items),
+	%write(Items),
 	assert(tempsItems(Items)).
 % Get the item position and recursive call on the rest of the list.
 find_items_i(RawBoard, ASCIcode, Items, I) :-
@@ -155,3 +145,14 @@ find_items_i(RawBoard, ASCIcode, Items, I) :-
 % split(+List, +Pivot, -Left, -Right)
 % used to split a list on a special char (pivot) and return left and right member
 split(List, Pivot, Left, Right) :- append(Left, [Pivot|Right], List).
+
+% ---------- Get the board size ----------------
+
+% get_size(+RawBoard_full, -RawBoard, -Size)
+% Get the size from the readed board
+%get_size(RawBoard_full, RawBoard, Size) :- split(RawBoard_full, 47, RawBoard, Size_raw), length(Size_raw, SizeLength), real_size(Size_raw, Size, SizeLength).
+
+% TO BE DONE
+% Return the real size in decimal
+%real_size([F | Size_raw], Size, 1) :-
+%	Size_new is Size_raw + Size.
