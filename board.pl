@@ -1,10 +1,10 @@
 :- module(board,[
-	board_length/1, default_board/1, 
+	board_length/1,
 	resources1/2, resources2/2, pos_p1/2, pos_p2/2, walls/2, 
 	display_board/1,get_element_at_position/3,get_moves/3
 	]).
 % ----------------------------------------
-%             Constantes
+%             Dynamic
 % ----------------------------------------
 
 % Default board structure (4x4 size)
@@ -16,7 +16,11 @@
 % 31/  w w w w w w
 
 board_length(X):- X is 6.
-default_board(Board):- Board = [8,20,[1,2,3,4,5,6,7,11,12,13,14,17,18,19,22,24,25,26,29,30,31,32,33,34,35,36],[],[]].
+
+%Define the board function as dynamic -> can be edited by assert & retract
+:- dynamic(board/1)
+%Define the default board
+board([8,20,[1,2,3,4,5,6,7,11,12,13,14,17,18,19,22,24,25,26,29,30,31,32,33,34,35,36],[],[]]).
 
 % ----------------------------------------
 %           Public Methods

@@ -10,7 +10,7 @@
 
 % ants.
 % Launch the game with the default map
-ants :- default_board(Board), write('Initial board is :     '),display_board(Board),game(Board,1).
+ants :- board(Board), write('Initial board is :     '),display_board(Board),game(Board,1).
 
 % ants(+Board).
 % Launch the game with a custom Board
