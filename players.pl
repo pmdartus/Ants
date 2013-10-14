@@ -24,6 +24,14 @@ available_moves(Board,2,Moves) :-
 	move_bottom(Board, Pos1, M2, M3),
 	Moves = M3.
 
+% get_moves(+Board, +Position, Move)
+% Returns the possible moves
+
+get_moves(Board, Position, Move):-get_surround(Board,Position,Cardinal,Index),Index =\= 0, 
+        not(get_element_at_position(Board,Index,walls)), 
+        not(get_element_at_position(Board,Index,p1)), 
+        not(get_element_at_position(Board,Index,p2)), Move=Cardinal.
+
 % update_user_position(+Board, +Player, +NewPosition, -NewBoard)
 % Update the postion of the selected user and return it into NewBoard 
 update_user_position([_, Pos2, Walls, R1, R2], 1, NewPosition, [NewPosition, Pos2, Walls, R1, R2]) :- write('Player 1 move to :'), write(NewPosition), nl.
@@ -53,3 +61,20 @@ move_top(_, _, Moves, Moves).
 % Add in NewMoves the bottom position if the move if possible
 move_bottom(Board, Pos1, Moves, NewMoves):- board_length(Length), Bottom is Pos1 + Length , get_element_at_position(Board, Bottom, Elem), Elem \== walls, Elem \== p1, Elem \== p2, !, append(Moves, Bottom, Temp), flatten(Temp, NewMoves).
 move_bottom(_, _, Moves, Moves).
+
+
+
+% get_surround(+Board, +Position, -Cardinal, -Index)
+% Returns positions of the surroundings for a given cardinal
+
+get_surround(Board,Position,left,Index):-board_length(Length), Position mod Length =:= 1, Index = 0.
+get_surround(Board,Position,left,Index):-board_length(Length), Position mod Length =\= 1, Index is (Position-1).
+
+get_surround(Board,Position,right,Index):-board_length(Length), Position mod Length =:= 0, Index = 0.
+get_surround(Board,Position,right,Index):-board_length(Length), Position mod Length =\= 0, Index is (Position+1).
+
+get_surround(Board,Position,top,Index):-board_length(Length), Position > Length, Index is (Position-Length).
+get_surround(Board,Position,top,Index):-board_length(Length), Position =< Length, Index = 0.
+
+get_surround(Board,Position,bottom,Index):-board_length(Length), Position < Length*Length - Length, Index is (Position+Length).
+get_surround(Board,Position,bottom,Index):-board_length(Length), Position >= Length*Length - Length, Index = 0. 
