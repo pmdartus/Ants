@@ -14,8 +14,8 @@ carry_resource(Board, 2) :- pos_p2(Board, Pos), resources2(Board, Res), member(P
 
 % has_ressources(+Board, +Player)
 % Return if the selected user has ressources on the board
-has_ressources(Board, 1) :- resources1(Board, Res), length(Res, Length), Length =:= 0.
-has_ressources(Board, 2) :- resources2(Board, Res), length(Res, Length), Length =:= 0.
+has_ressources(Board, 1) :- resources1(Board, Res), length(Res, Length), Length =\= 0.
+has_ressources(Board, 2) :- resources2(Board, Res), length(Res, Length), Length =\= 0.
 
 % ----------------------------------------
 %           Private Methods

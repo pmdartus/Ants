@@ -28,6 +28,7 @@ update_user_position([Pos1, _, Walls, R1, R2], 2, NewPosition, [Pos1, NewPositio
 
 % get_move(+Board, +Position, +Player, -Move)
 % Returns the possible moves
+% /!\ Check for current position if it is available
 get_move(Board, Position, 1, Move):-get_surround(Position,Index),Index =\= 0,
 		not(carry_resource(Board,1)), 
         not(get_element_at_position(Board,Index,walls)), 
