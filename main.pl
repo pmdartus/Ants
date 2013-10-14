@@ -2,6 +2,7 @@
 :-  use_module(ai2).
 :-  use_module(board).
 :-  use_module(players).
+:-  use_module(file).
 
 % ----------------------------------------
 %           Public Methods
@@ -9,7 +10,7 @@
 
 % ants.
 % Launch the game with the default map
-ants :- default_board(Board), write('Initial board is :     '),display_board(Board),game(Board,1).
+ants :- board(Board), write('Initial board is :     '),display_board(Board),game(Board,1).
 
 % ants(+Board).
 % Launch the game with a custom Board
