@@ -28,11 +28,21 @@ update_user_position([Pos1, _, Walls, R1, R2], 2, NewPosition, [Pos1, NewPositio
 
 % get_move(+Board, +Position, +Player, -Move)
 % Returns the possible moves
-get_move(Board, Position, 1, Move):-get_surround(Position,Index),Index =\= 0, 
+get_move(Board, Position, 1, Move):-get_surround(Position,Index),Index =\= 0,
+		not(carry_resource(Board,1)), 
+        not(get_element_at_position(Board,Index,walls)), 
+        not(get_element_at_position(Board,Index,p2)), Move=Index.
+get_move(Board, Position, 1, Move):-get_surround(Position,Index),Index =\= 0,
+		carry_resource(Board,1), Position =\= Index, not(get_element_at_position(Board, Index, resource1)),
         not(get_element_at_position(Board,Index,walls)), 
         not(get_element_at_position(Board,Index,p2)), Move=Index.
 
 get_move(Board, Position, 2, Move):-get_surround(Position,Index),Index =\= 0, 
+		not(carry_resource(Board,2)),
+        not(get_element_at_position(Board,Index,walls)), 
+        not(get_element_at_position(Board,Index,p1)), Move=Index.
+get_move(Board, Position, 2, Move):-get_surround(Position,Index),Index =\= 0, 
+		carry_resource(Board,2), Position =\= Index, not(get_element_at_position(Board, Index, resource2)),
         not(get_element_at_position(Board,Index,walls)), 
         not(get_element_at_position(Board,Index,p1)), Move=Index.
 
