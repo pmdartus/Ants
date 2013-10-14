@@ -12,7 +12,8 @@
 
 % save(+Board, +Path)
 % Save the actual game state into a file, located in path
-save(Board, Path) :- open(Path,write,Stream), write(Stream,display_board(Board)), nl(Stream), close(Stream).
+% WARNING: the saving path will be relative from the actual one (i.e the one from which you lunch swipl)
+save(Board, Path) :- open(Path,write,Stream), save_board(Board, Stream), nl(Stream), close(Stream).
 
 % ----------------------------------------
 %           Loading from a file
@@ -26,17 +27,26 @@ save(Board, Path) :- open(Path,write,Stream), write(Stream,display_board(Board))
 %           Private Methods
 % ----------------------------------------
 
-% save_element(+Board, +Index)
-% Save the element at the selected index ( begin at 1 ) into file
-save_element(_, Index) :- board_length(Length), Index > Length * Length, nl. 
-save_element(Board, Index) :- get_element_at_position(Board, Index, p1), 
-                                write('1'), 
-                                NewIndex is Index+1, next_display(Index), save_element(Board , NewIndex).
-save_element(Board, Index) :- get_element_at_position(Board, Index, p2),  
-                                write('2'), 
-                                NewIndex is Index+1, next_display(Index), save_element(Board , NewIndex).
-save_element(Board, Index) :- get_element_at_position(Board, Index, walls), 
-                                write('M'), 
-                                NewIndex is Index+1, next_display(Index), save_element(Board , NewIndex).
-save_element(Board, Index) :-  write('_'), 
-                                NewIndex is Index+1, next_display(Index), save_element(Board , NewIndex).
+% save_board(+Board)
+% Save the board passed in argument into a stream
+save_board(Board, Stream) :- write(Stream, '\n'), save_element(Board, 1, Stream).
+
+% save_element(+Board, +Index, +Stream)
+% Save the element at the selected index ( begin at 1 ) into a stream
+save_element(_, Index, Stream) :- board_length(Length), Index > Length * Length, write(Stream, '\n'). 
+save_element(Board, Index, Stream) :- get_element_at_position(Board, Index, p1), 
+                                write(Stream, '1'), 
+                                NewIndex is Index+1, next_display(Index, Stream), save_element(Board , NewIndex, Stream).
+save_element(Board, Index, Stream) :- get_element_at_position(Board, Index, p2),  
+                                write(Stream, '2'), 
+                                NewIndex is Index+1, next_display(Index, Stream), save_element(Board , NewIndex, Stream).
+save_element(Board, Index, Stream) :- get_element_at_position(Board, Index, walls), 
+                                write(Stream, 'W'), 
+                                NewIndex is Index+1, next_display(Index, Stream), save_element(Board , NewIndex, Stream).
+save_element(Board, Index, Stream) :-  write(Stream, '_'), 
+                                NewIndex is Index+1, next_display(Index, Stream), save_element(Board , NewIndex, Stream).
+
+% next_display(+Index)
+% Select if the at this index it should break or not
+next_display(Index, Stream) :- board_length(Length), Index mod Length =:= 0, write(Stream, '\n'). 
+next_display(_, Stream) :- write(Stream, ' '). 
