@@ -1,5 +1,5 @@
 :- module(file,[
-	save/2
+	save/2, load/2
 	]).
 
 
@@ -19,8 +19,10 @@ save(Board, Path) :- open(Path,write,Stream), save_board(Board, Stream), nl(Stre
 %           Loading from a file
 
 % Load(+Board, +Path)
-
-
+load(Path, Board) :- open(Path,read,Stream), 
+	read_element(RawBoard, Stream),
+  close(Stream),
+  write(RawBoard), nl.
 
 
 % ----------------------------------------
@@ -50,3 +52,8 @@ save_element(Board, Index, Stream) :-  write(Stream, '_'),
 % Select if the at this index it should break or not
 next_display(Index, Stream) :- board_length(Length), Index mod Length =:= 0, write(Stream, '\n'). 
 next_display(_, Stream) :- write(Stream, ' '). 
+
+% read_element(-RawBoard, +Stream)
+% REad a line into the file
+read_element(RawBoard, Stream) :- at_end_of_stream(Stream), write(RawBoard).
+read_element(RawBoard, Stream) :- read_line_to_codes(Stream,RawBoard_loaded), append(RawBoard, RawBoard_loaded, RawBoard_new), !, read_element(RawBoard_new, Stream).

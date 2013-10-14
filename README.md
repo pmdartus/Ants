@@ -21,7 +21,7 @@ The first player who brought all his resources to his base win the round.
 The board is defined by a table:
 
 ```
-	Board = [Player1_pos, Player2_pos, Walls, Resources1, Resources2, Base1, Base2]
+	Board = [Player1_pos, Player2_pos, Walls, Resources1, Resources2]
 ```
 
 ## RUNNING:
