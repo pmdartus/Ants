@@ -1,6 +1,6 @@
 :- module(board,[
 	resources1/2, resources2/2, pos_p1/2, pos_p2/2, walls/2, 
-	display_board/1,get_element_at_position/3,get_moves/3
+	display_board/1,get_element_at_position/3
 	]).
 
 % ----------------------------------------
@@ -49,14 +49,6 @@ get_element_at_position(Board, Position, Type):- pos_p1(Board, Position), Type=p
 get_element_at_position(Board, Position, Type):- pos_p2(Board, Position), Type=p2.
 get_element_at_position(_, _, Type):- Type=empty.
 
-% get_moves(+Board, +Position, Move)
-% Returns the possible moves
-
-get_moves(Board, Position, Move):-get_surround(Board,Position,Cardinal,Index),Index =\= 0, 
-                                  not(get_element_at_position(Board,Index,walls)), 
-				  not(get_element_at_position(Board,Index,p1)), 
-				  not(get_element_at_position(Board,Index,p2)), Move=Cardinal.
-
 
 % display_board(+Board)
 % Display the board passed in argument
@@ -79,26 +71,16 @@ display_element(Board, Index) :- get_element_at_position(Board, Index, p2),
 display_element(Board, Index) :- get_element_at_position(Board, Index, walls), 
                                 write('M'), 
                                 NewIndex is Index+1, next_display(Index), display_element(Board , NewIndex).
-display_element(Board, Index) :-  write('_'), 
+display_element(Board, Index) :- get_element_at_position(Board, Index, resource1), 
+                                write('X'), 
+                                NewIndex is Index+1, next_display(Index), display_element(Board , NewIndex).
+display_element(Board, Index) :- get_element_at_position(Board, Index, resource2), 
+                                write('Y'), 
+                                NewIndex is Index+1, next_display(Index), display_element(Board , NewIndex).
+display_element(Board, Index) :-  write(' '), 
                                 NewIndex is Index+1, next_display(Index), display_element(Board , NewIndex).
 
 % next_display(+Index)
 % Select if the at this index it should break or not
 next_display(Index) :- board_length(Length), Index mod Length =:= 0, nl. 
 next_display(_) :- write(' '). 
-
-
-% get_surround(+Board, +Position, -Cardinal, -Index)
-% Returns positions of the surroundings for a given cardinal
-
-get_surround(Board,Position,left,Index):-board_length(Length), Position mod Length =:= 1, Index = 0.
-get_surround(Board,Position,left,Index):-board_length(Length), Position mod Length =\= 1, Index is (Position-1).
-
-get_surround(Board,Position,right,Index):-board_length(Length), Position mod Length =:= 0, Index = 0.
-get_surround(Board,Position,right,Index):-board_length(Length), Position mod Length =\= 0, Index is (Position+1).
-
-get_surround(Board,Position,top,Index):-board_length(Length), Position > Length, Index is (Position-Length).
-get_surround(Board,Position,top,Index):-board_length(Length), Position =< Length, Index = 0.
-
-get_surround(Board,Position,bottom,Index):-board_length(Length), Position < Length*Length - Length, Index is (Position+Length).
-get_surround(Board,Position,bottom,Index):-board_length(Length), Position >= Length*Length - Length, Index = 0. 
