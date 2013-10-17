@@ -1,7 +1,8 @@
 :-  use_module(ai_basic).
-:-  use_module(ai2).
 :-  use_module(board).
 :-  use_module(players).
+:-  use_module(file).
+:-  use_module(resources).
 
 % ----------------------------------------
 %           Public Methods
@@ -9,7 +10,7 @@
 
 % ants.
 % Launch the game with the default map
-ants :- default_board(Board), write('Initial board is :     '),display_board(Board),game(Board,1).
+ants :- board(Board), write('Initial board is :     '),display_board(Board),game(Board,1).
 
 % ants(+Board).
 % Launch the game with a custom Board
@@ -22,6 +23,10 @@ ants(Board) :- write('Initial board is :     '),display_board(Board),nl,game(Boa
 
 % win(+Player, +Board).
 % Is true when a player win
+
+% Official !!!
+% win(1,Board) :- not(has_ressource(Board,1)).
+% win(2,Board) :- not(has_ressource(Board,2)).
 win(1,Board) :- pos_p1(Board,P),P=10 .
 win(2,Board) :- pos_p2(Board,P),P=10 .
 
