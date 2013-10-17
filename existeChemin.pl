@@ -6,9 +6,11 @@
 %TODO : Inverser la récursion de la ligne 10
 % Essayé pendant 2 heures, j'en peux plus...
 
-test:- default_board(Board), existeChemin(Board,1,8,25,W,Chemin).
+board([8,20,[1,2,3,4,5,6,7,11,12,13,14,17,18,19,22,24,25,26,29,30,31,32,33,34,35,36],[],[]]).
 
-existeChemin(_,_,A,A,W,Chemin):- write(1),W is 0, Chemin = A.
-existeChemin(Board,P,A,B,W,Chemin) :- write(2),players:get_move(Board, A, P, B), W is 1, Chemin = [B].
-existeChemin(Board,P,A,B,W,Chemin) :- write(3),existeChemin(Board,P,A,C,Wac,CheminAC), players:get_move(Board, C, P, B),not(nth1(_,CheminAC,B)) ,W is Wac + 1, append(CheminAC,[B],Chemin).
+test:- board(Board), path(Board,8,1,25,Nodes).
 
+edge(Board,A,J,B) :- players:get_move(Board, A, J, B).
+
+path(Board,A,J,B,Nodes) :- edge(Board,A,J,B),not(member(B,Nodes)).
+path(Board,A,J,B,Nodes) :- edge(Board,A,J,C),not(member(C,Nodes)),path(Board,C,B,[C|Nodes]).

@@ -3,6 +3,7 @@
 :-  use_module(players).
 :-  use_module(file).
 :-  use_module(resources).
+:-  use_module(pathfinding).
 
 % ----------------------------------------
 %           Public Methods
@@ -44,3 +45,5 @@ game(Board , _) :- win(1, Board),write('//////  P1 win! /////////'), display_boa
 game(Board , _) :- win(2, Board),write('//////  P2 win! /////////'), display_board(Board).
 game(Board , 1) :- play1(Board , NewBoard), game(NewBoard , 2). 
 game(Board , 2) :- play2(Board , NewBoard), game(NewBoard , 1).
+
+
