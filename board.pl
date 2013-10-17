@@ -1,5 +1,5 @@
 :- module(board,[
-	resources1/2, resources2/2, pos_p1/2, pos_p2/2, walls/2, 
+	resources/2, pos_p1/2, pos_p2/2, walls/2, 
 	display_board/1,get_element_at_position/3
 	]).
 
