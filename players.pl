@@ -41,17 +41,17 @@ get_move(Board, Position, 2, Move):-get_surround(Position,Index),Index =\= 0,
 % Current Position
 get_surround(Position,Position).
 % Left
-get_surround(Position,Index):-board_length(Length), Position mod Length =:= 1, Index = 0.
+get_surround(Position,Index):-board_length(Length), Position mod Length =:= 1, Index is 0.
 get_surround(Position,Index):-board_length(Length), Position mod Length =\= 1, Index is (Position-1).
 % Right
-get_surround(Position,Index):-board_length(Length), Position mod Length =:= 0, Index = 0.
+get_surround(Position,Index):-board_length(Length), Position mod Length =:= 0, Index is 0.
 get_surround(Position,Index):-board_length(Length), Position mod Length =\= 0, Index is (Position+1).
 % Top
 get_surround(Position,Index):-board_length(Length), Position > Length, Index is (Position-Length).
-get_surround(Position,Index):-board_length(Length), Position =< Length, Index = 0.
+get_surround(Position,Index):-board_length(Length), Position =< Length, Index is 0.
 % Bottom
 get_surround(Position,Index):-board_length(Length), Position < Length*Length - Length, Index is (Position+Length).
-get_surround(Position,Index):-board_length(Length), Position >= Length*Length - Length, Index = 0. 
+get_surround(Position,Index):-board_length(Length), Position >= Length*Length - Length, Index is 0. 
 % Top Left
 get_surround(Position,Index):-board_length(Length), Position mod Length =\= 1, Position > Length, Index is Position - Length - 1.
 % Top Right
