@@ -95,11 +95,11 @@ find_indexes(RawBoard) :-
 	% J1, J2
 	nth0(IndexJ1,RawBoard,49), nth0(IndexJ2,RawBoard,50),
 	% R, S
-	find_items(IndexR, RawBoard, 82), find_items(IndexS, RawBoard, 83),
+	find_items(IndexR, RawBoard, 82),
 	% B, C
 	%	nth0(IndexB,Rawboard,66), nth0(IndexC,Rawboard,67),
 	% Call board update
-	update_board([IndexJ1, IndexJ2, Walls, IndexR, IndexS]).
+	update_board([IndexJ1, IndexJ2, Walls, IndexR]).
 
 % update_board(+RawBoard)
 % Update the board predicate with the new one
