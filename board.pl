@@ -3,7 +3,26 @@
 	display_board/1,get_element_at_position/3
 	]).
 
+% ----------------------------------------
+%             Dynamic
+% ----------------------------------------
 
+%Define the board function as dynamic -> can be edited by assert & retract
+:- dynamic([
+    board/1, board_length/1
+    ]).
+
+% Default board structure (4x4 size)
+%  1/  w w w w w w
+%  7/  w 1 _ _ w w
+% 13/  w w _ _ w w
+% 19/  w 2 _ w _ w
+% 25/  w w _ _ w w
+% 31/  w w w w w w
+
+%Define the default board
+board:board_length(6).
+board:board([8,20,[1,2,3,4,5,6,7,11,12,13,14,17,18,19,22,24,25,26,29,30,31,32,33,34,35,36],[],[]]).
 
 % ----------------------------------------
 %           Public Methods
@@ -40,7 +59,7 @@ display_board(Board) :- nl, display_element(Board, 1).
 
 % display_element(+Board, +Index)
 % Display the element at the selected index ( begin at 1 )
-display_element(_, Index) :- board_length(Length), Index > Length * Length, nl. 
+display_element(_, Index) :- board:board_length(Length), Index > Length * Length, nl. 
 display_element(Board, Index) :- get_element_at_position(Board, Index, p1), 
                                 write('1'), 
                                 NewIndex is Index+1, next_display(Index), display_element(Board , NewIndex).
@@ -61,5 +80,5 @@ display_element(Board, Index) :-  write(' '),
 
 % next_display(+Index)
 % Select if the at this index it should break or not
-next_display(Index) :- board_length(Length), Index mod Length =:= 0, nl. 
+next_display(Index) :- board:board_length(Length), Index mod Length =:= 0, nl. 
 next_display(_) :- write(' '). 
