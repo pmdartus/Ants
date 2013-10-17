@@ -1,7 +1,30 @@
 :-  use_module(ai_basic).
-:-  use_module(ai2).
 :-  use_module(board).
 :-  use_module(players).
+:-  use_module(file).
+:-  use_module(resources).
+
+% ----------------------------------------
+%             Dynamic
+% ----------------------------------------
+
+%Define the board function as dynamic -> can be edited by assert & retract
+:- dynamic([
+    board/1, board_length/1
+    ]).
+
+
+% Default board structure (4x4 size)
+%  1/  w w w w w w
+%  7/  w 1 _ _ w w
+% 13/  w w _ _ w w
+% 19/  w 2 _ w _ w
+% 25/  w w _ _ w w
+% 31/  w w w w w w
+
+%Define the default board
+board_length(6).
+board([8,20,[1,2,3,4,5,6,7,11,12,13,14,17,18,19,22,24,25,26,29,30,31,32,33,34,35,36],[],[]]).
 
 % ----------------------------------------
 %           Public Methods
@@ -9,7 +32,7 @@
 
 % ants.
 % Launch the game with the default map
-ants :- default_board(Board), write('Initial board is :     '),display_board(Board),game(Board,1).
+ants :- board(Board), write('Initial board is :     '),display_board(Board),game(Board,1).
 
 % ants(+Board).
 % Launch the game with a custom Board
@@ -22,6 +45,10 @@ ants(Board) :- write('Initial board is :     '),display_board(Board),nl,game(Boa
 
 % win(+Player, +Board).
 % Is true when a player win
+
+% Official !!!
+% win(1,Board) :- not(has_ressource(Board,1)).
+% win(2,Board) :- not(has_ressource(Board,2)).
 win(1,Board) :- pos_p1(Board,P),P=10 .
 win(2,Board) :- pos_p2(Board,P),P=10 .
 
