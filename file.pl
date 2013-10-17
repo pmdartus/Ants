@@ -24,7 +24,7 @@ save(Board, Path) :- open(Path,write,Stream), save_board(Board, Stream), nl(Stre
 % Load(+Path, +Size)
 load(Path, Size) :- open(Path,read,Stream),
 	update_board_size(Size),
-	read_element(Stream, RawBoard),
+	read_element(Stream, _),
   close(Stream),
   write('Done'), nl.
 
@@ -68,7 +68,7 @@ next_display(_, Stream) :- write(Stream, ' ').
 % ----------------------------------------
 %           Load subfunctions 
 
-% read_element(-RawBoard, +Stream)
+% read_element(+Stream, -RawBoard)
 % Read a line into the file
 read_element(Stream, RawBoard) :-
 	at_end_of_stream(Stream),
@@ -128,9 +128,9 @@ find_items(Items, RawBoard, ASCICode) :- find_items_i(RawBoard, ASCICode, [], 0)
 
 % find_items_i(+RawBoard, +ASCICode, -Items, +I)
 % see find_items/2
-find_items_i(RawBoard, ASCIcode, Items, I) :-
+find_items_i(RawBoard, ASCIcode, Items, _) :-
 	% Break condition.
-	not(nth0(Item_found, RawBoard, ASCIcode)),
+	not(nth0(Items, RawBoard, ASCIcode)),
 	%DEBUG
 	%write(Items),
 	assert(tempsItems(Items)).
