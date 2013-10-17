@@ -3,27 +3,6 @@
 	display_board/1,get_element_at_position/3
 	]).
 
-% ----------------------------------------
-%             Dynamic
-% ----------------------------------------
-
-%Define the board function as dynamic -> can be edited by assert & retract
-:- dynamic([
-    board/1, board_length/1
-    ]).
-
-% Default board structure (4x4 size)
-%  1/  w w w w w w
-%  7/  w 1 _ _ w w
-% 13/  w w _ _ w w
-% 19/  w 2 _ w _ w
-% 25/  w w _ _ w w
-% 31/  w w w w w w
-
-%Define the default board
-board_length(6).
-assert(board([8,20,[1,2,3,4,5,6,7,11,12,13,14,17,18,19,22,24,25,26,29,30,31,32,33,34,35,36],[],[]])).
-
 
 
 % ----------------------------------------
