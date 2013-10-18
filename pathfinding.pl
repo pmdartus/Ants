@@ -1,18 +1,20 @@
 :- module(pathfinding,[
-	paths/5,
-        shortest_path/5
+	path/6,
+        shortest_path/6
 	]).
 
 % ----------------------------------------
 %           Public Methods
 % ----------------------------------------
 % Returns available paths from A to B, considering player J moves
-% paths(+Board,+A,+J,+B,-Paths).
-paths(Board,A,J,B,Paths) :- findall([Path],path(Board,A,J,B,[],Path,L),Paths).
+% path(+Board,+A,+J,+B,-Path,?Length).
+% Example usage from main : board:board(Board),path(Board,8,1,23,Path,Length).
+path(Board,A,J,B,Path,Length) :- path(Board,A,J,B,[],Path,Length).
 
 % Same as above, but return only the shortest ones
-% shortest_path(+Board,+A,+J,+B,-Shortest).
-shortest_path(Board,A,J,B,Shortest) :- findall([L,Path],path(Board,A,J,B,[],Path,L),Paths),member([Min,Shortest],Paths),findall([L],path(Board,A,J,B,[],Path,L),Poids),min_list(Poids,Min).
+% shortest_path(+Board,+A,+J,+B,-Path,?Length).
+% Example usage from main :  board:board(Board),shortest_path(Board,8,1,23,Path,Length).
+shortest_path(Board,A,J,B,Path,Length) :- findall([L],path(Board,A,J,B,[],_,L),Poids),min_list(Poids,Length), !, path(Board,A,J,B,[],Path,Length).
 
 
 % ----------------------------------------
@@ -23,35 +25,3 @@ edge(Board,A,J,B) :- players:get_move(Board, A, J, B).
 
 path(Board,A,J,B,Nodes,Path,L) :- edge(Board,A,J,B),not(member(B,Nodes)), Path = [B],L is 1.
 path(Board,A,J,B,Nodes,Path,L) :- edge(Board,A,J,C),not(member(C,Nodes)),path(Board,C,J,B,[C|Nodes],PathCB,LCB),Path = [C|PathCB],L is LCB+1.
-
-%
-%:- module(pathfinding,[
-%		paths/6,
- %   	shortest_path/5
-%	]).
-
-% ----------------------------------------
-%           Public Methods
-% ----------------------------------------
-% Returns available paths from A to B, considering player J moves
-% paths(+Board,+A,+J,+B,-Paths).
-%paths(Board,A,J,B,Paths,L) :- findall([L,Path],path(Board,A,J,B,[],Path,L),Paths).
-
-% Same as above, but return only the shortest ones
-% shortest_path(+Board,+A,+J,+B,-Poids,-Shortest).
-%shortest_path(Board,A,J,B,Shortest):- Shortest is paths(Board,A,J,B,Paths,L),get_min_weight(Shortest).
-
-% ----------------------------------------
-%           Private Methods
-% ----------------------------------------
-
-%edge(Board,A,J,B) :- players:get_move(Board, A, J, B).
-
-%path(Board,A,J,B,Nodes,Path,L) :- edge(Board,A,J,B),not(member(B,Nodes)), Path = [B],L is 1.
-%path(Board,A,J,B,Nodes,Path,L) :- edge(Board,A,J,C),not(member(C,Nodes)),path(Board,C,J,B,[C|Nodes],PathCB,LCB),Path = [C|PathCB],L is LCB+1.
-
-% Gets the minimum of a list of pairs (Weight,Path)
-% get_min_weight(+List([Weight,Path]),-Result).
-%get_min_weight([[Weight,Path]]):-write(Path).
-%get_min_weight([[W1,P1],[W2,P2]|Q]):- W1 =< W2, get_min_weight([[W1,P1]|Q]).
-%get_min_weight([[W1,P1],[W2,P2]|Q]):- W1 > W2, get_min_weight([[W2,P2]|Q]).
