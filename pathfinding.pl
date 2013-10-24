@@ -1,18 +1,20 @@
 :- module(pathfinding,[
-	paths/5,
-        shortest_path/5
+	path/6,
+        shortest_path/6
 	]).
 
 % ----------------------------------------
 %           Public Methods
 % ----------------------------------------
 % Returns available paths from A to B, considering player J moves
-% paths(+Board,+A,+J,+B,-Paths).
-paths(Board,A,J,B,Paths) :- findall([Path],path(Board,A,J,B,[],Path,L),Paths).
+% path(+Board,+A,+J,+B,-Path,?Length).
+% Example usage from main : board:board(Board),path(Board,8,1,23,Path,Length).
+path(Board,A,J,B,Path,Length) :- path(Board,A,J,B,[],Path,Length).
 
 % Same as above, but return only the shortest ones
-% shortest_path(+Board,+A,+J,+B,-Shortest).
-shortest_path(Board,A,J,B,Shortest) :- findall([L,Path],path(Board,A,J,B,[],Path,L),Paths),member([Min,Shortest],Paths),findall([L],path(Board,A,J,B,[],Path,L),Poids),min_list(Poids,Min).
+% shortest_path(+Board,+A,+J,+B,-Path,?Length).
+% Example usage from main :  board:board(Board),shortest_path(Board,8,1,23,Path,Length).
+shortest_path(Board,A,J,B,Path,Length) :- findall([L],path(Board,A,J,B,[],_,L),Poids),min_list(Poids,Length), !, path(Board,A,J,B,[],Path,Length).
 
 
 % ----------------------------------------

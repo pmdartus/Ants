@@ -73,7 +73,10 @@ next_display(_, Stream) :- write(Stream, ' ').
 read_element(Stream, RawBoard) :-
 	at_end_of_stream(Stream),
 	find_indexes(RawBoard),
-	board:board(Board), display_board(Board).
+	board:board(Board),
+	%DEBUG
+	%write(Board),
+	display_board(Board).
 read_element(Stream, RawBoard) :- read_line_to_codes(Stream,RawBoard_loaded), append(RawBoard, RawBoard_loaded, RawBoard_new), !, read_element(Stream, RawBoard_new).
 
 
@@ -124,22 +127,26 @@ update_board_size(Size) :-
 % NB 1/ Stored with an assert into tempItems.
 % NB 2/ [] if code never found!
 % NB 3/ based on find_items_i/4
-find_items(Items, RawBoard, ASCICode) :- find_items_i(RawBoard, ASCICode, [], 0), tempsItems(Items), retract(tempsItems(Items)).
+find_items(Items, RawBoard, ASCICode) :- find_items_i(RawBoard, ASCICode, [], 1), tempsItems(Items), retract(tempsItems(Items)).
 
 % find_items_i(+RawBoard, +ASCICode, -Items, +I)
 % see find_items/2
 find_items_i(RawBoard, ASCIcode, Items, _) :-
 	% Break condition.
-	not(nth0(Items, RawBoard, ASCIcode)),
+	not(nth0(_, RawBoard, ASCIcode)),
 	%DEBUG
 	%write(Items),
 	assert(tempsItems(Items)).
 % Get the item position and recursive call on the rest of the list.
 find_items_i(RawBoard, ASCIcode, Items, I) :-
+	%Find an element
 	nth0(Item_found, RawBoard, ASCIcode), !,
+	%Update Items by adding the new index.
 	Item_actual is Item_found+I,
 	append([Item_actual], Items, Items_new),
+	%Split the RawBoard to get only the right part after the founded item
 	split(RawBoard, ASCIcode, _, RawBoard_new),
+	%Recursive call
 	I_new is Item_actual+1, find_items_i(RawBoard_new, ASCIcode, Items_new, I_new).
 
 % split(+List, +Pivot, -Left, -Right)

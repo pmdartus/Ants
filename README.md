@@ -14,6 +14,7 @@ The first player who brought all his resources to his base win the round.
 	board.pl           Board initialisation and manipulation
 	players.pl         Players status update
 	ai_basic.pl        AI playing random moves
+	pathfinding.pl     Path finding algorithms
 ```
 
 ## API
