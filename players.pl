@@ -49,8 +49,6 @@ get_move(Board, Position, 2, Move):-get_surround(Position,Index),Index =\= 0,
 
 % get_surround( +Position, -Index)
 % Returns positions of the surroundings for a given cardinal
-% Current Position
-get_surround(Position,Position).
 % Left
 get_surround(Position,Index):-board:board_length(Length), Position mod Length =:= 1, Index = 0.
 get_surround(Position,Index):-board:board_length(Length), Position mod Length =\= 1, Index is (Position-1).
