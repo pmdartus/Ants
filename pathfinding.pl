@@ -3,6 +3,12 @@
         shortest_path/6
 	]).
 
+% TODO : use new accessible prediacte in order to find shortest paths : 
+%	1 - Test if a path exists
+%	2 - If one exists, find for one path 1-step long, if this fails, find for one 1 step longer and so on
+% TODO : Wrap this in a function
+
+
 % ----------------------------------------
 %           Public Methods
 % ----------------------------------------
