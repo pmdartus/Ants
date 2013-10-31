@@ -17,17 +17,18 @@
 % Example usage from main : board:board(Board),path(Board,8,1,23,Path,Length).
 path(Board,A,J,B,Path,Length) :- path(Board,A,J,B,[],Path,Length).
 
-% Same as above, but return only the shortest ones
-% shortest_path(+Board,+A,+J,+B,-Path,?Length).
-% Example usage from main :  board:board(Board),shortest_path(Board,8,1,23,Path,Length).
-shortest_path(Board,A,J,B,Path,Length) :- findall([L],path(Board,A,J,B,[],_,L),Poids),min_list(Poids,Length), !, path(Board,A,J,B,[],Path,Length).
 
-shortest_p(Board,A,J,B,Nodes,Path,Length,Max) :- accessible(Board,A,J,B),spf(Board,A,J,B,Nodes,Path,Length,Max).
-shortest_p(Board,A,J,B,Nodes,Path,Length,Max) :- accessible(Board,A,J,B),not(spf(Board,A,J,B,Nodes,Path,Length,Max)),NMax is Max+1,shortest_p(Board,A,J,B,Nodes,Path,Length,NMax).
+% checks for accessible before launching one of both shortest_p methods
+appel(Board,A,J,B,Nodes,Path,Length,Max) :- accessible(Board,A,J,B),first_shortest_p(Board,A,J,B,Nodes,Path,Length,Max).
 
 
-first_shortest_p(Board,A,J,B,Nodes,Path,Length,Max) :- accessible(Board,A,J,B),spf(Board,A,J,B,Nodes,Path,Length,Max),!.
-first_shortest_p(Board,A,J,B,Nodes,Path,Length,Max) :- accessible(Board,A,J,B),not(spf(Board,A,J,B,Nodes,Path,Length,Max)),NMax is Max+1,first_shortest_p(Board,A,J,B,Nodes,Path,Length,NMax).
+% returns shortest paths from A to B, considering player J moves
+shortest_p(Board,A,J,B,Nodes,Path,Length,Max) :- spf(Board,A,J,B,Nodes,Path,Length,Max).
+shortest_p(Board,A,J,B,Nodes,Path,Length,Max) :- not(spf(Board,A,J,B,Nodes,Path,Length,Max)),NMax is Max+1,shortest_p(Board,A,J,B,Nodes,Path,Length,NMax).
+
+% returns first shortest path found from A to B, considering player J moves
+first_shortest_p(Board,A,J,B,Nodes,Path,Length,Max) :- spf(Board,A,J,B,Nodes,Path,Length,Max),!.
+first_shortest_p(Board,A,J,B,Nodes,Path,Length,Max) :- not(spf(Board,A,J,B,Nodes,Path,Length,Max)),NMax is Max+1,first_shortest_p(Board,A,J,B,Nodes,Path,Length,NMax).
 
 % ----------------------------------------
 %           Private Methods
@@ -46,6 +47,9 @@ start_accessible(Board,A,J) :- players:get_move(Board, A, J, C), assert(acc(C)).
 step_accessible(Board,J) :- acc(A),players:get_move(Board, A, J, C),not(acc(C)), assert(acc(C)),step_accessible(Board,J).
 clean_accessible :- retractall(acc(X)).
 
+
+% checks if there is a path between A and B for player J
+% based on start_accessible, step_accessible and clean_accessible using assert method
 accessible(Board,A,J,B) :- start_accessible(Board,A,J),step_accessible(Board,J).
 accessible(Board,A,J,B) :- acc(B),clean_accessible.
 accessible(Board,A,J,B) :- clean_accessible,fail.
