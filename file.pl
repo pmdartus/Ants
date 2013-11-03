@@ -96,7 +96,7 @@ find_indexes(RawBoard) :-
 	% Walls
 	find_items(Walls, RawBoard, 87),
 	% J1, J2
-	nth0(IndexJ1,RawBoard,49), nth0(IndexJ2,RawBoard,50),
+	nth1(IndexJ1,RawBoard,49), nth1(IndexJ2,RawBoard,50),
 	% R, S
 	find_items(IndexR, RawBoard, 82), find_items(IndexS, RawBoard, 83),
 	% B, C
