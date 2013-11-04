@@ -1,5 +1,5 @@
 :- module(board,[
-	resources1/2, resources2/2, pos_p1/2, pos_p2/2, walls/2, 
+	resources/2, pos_p1/2, pos_p2/2, walls/2, 
 	display_board/1,get_element_at_position/3
 	]).
 
@@ -22,7 +22,7 @@
 
 %Define the default board
 board:board_length(6).
-board:board([8,20,[1,2,3,4,5,6,7,11,12,13,14,17,18,19,22,24,25,26,29,30,31,32,33,34,35,36],[],[]]).
+board:board([8,20,[1,2,3,4,5,6,7,11,12,13,14,17,18,19,22,24,25,26,29,30,31,32,33,34,35,36],[]]).
 
 % ----------------------------------------
 %           Public Methods
@@ -31,18 +31,16 @@ board:board([8,20,[1,2,3,4,5,6,7,11,12,13,14,17,18,19,22,24,25,26,29,30,31,32,33
 % Acessor(+Board, -Item)
 % Return into the seccond argument the selected item
 
-resources1([_,_,_,Resources1,_],Resources1).
-resources2([_,_,_,_,Resources2],Resources2).
-pos_p1([Player1_pos,_,_,_,_],Player1_pos).
-pos_p2([_,Player2_pos,_,_,_],Player2_pos).
-walls([_,_,Walls,_,_],Walls).
+resources([_,_,_,Resources],Resources).
+pos_p1([Player1_pos,_,_,_],Player1_pos).
+pos_p2([_,Player2_pos,_,_],Player2_pos).
+walls([_,_,Walls,_],Walls).
 
 % get_element_at_position(+Board, +Position, -Type)
 % Retun the type of the element in position Position
 
 get_element_at_position(Board, Position, Type):- walls(Board,Walls), member(Position, Walls), !, Type=walls.
-get_element_at_position(Board, Position, Type):- resources1(Board,R1), member(Position,R1), Type=resource1.
-get_element_at_position(Board, Position, Type):- resources2(Board,R2), member(Position,R2), Type=resource2.
+get_element_at_position(Board, Position, Type):- resources(Board,R), member(Position,R), Type=resource.
 get_element_at_position(Board, Position, Type):- pos_p1(Board, Position), Type=p1.
 get_element_at_position(Board, Position, Type):- pos_p2(Board, Position), Type=p2.
 get_element_at_position(_, _, Type):- Type=empty.
@@ -69,11 +67,8 @@ display_element(Board, Index) :- get_element_at_position(Board, Index, p2),
 display_element(Board, Index) :- get_element_at_position(Board, Index, walls), 
                                 write('M'), 
                                 NewIndex is Index+1, next_display(Index), display_element(Board , NewIndex).
-display_element(Board, Index) :- get_element_at_position(Board, Index, resource1), 
-                                write('X'), 
-                                NewIndex is Index+1, next_display(Index), display_element(Board , NewIndex).
-display_element(Board, Index) :- get_element_at_position(Board, Index, resource2), 
-                                write('Y'), 
+display_element(Board, Index) :- get_element_at_position(Board, Index, resource), 
+                                write('R'), 
                                 NewIndex is Index+1, next_display(Index), display_element(Board , NewIndex).
 display_element(Board, Index) :-  write(' '), 
                                 NewIndex is Index+1, next_display(Index), display_element(Board , NewIndex).
