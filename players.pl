@@ -45,6 +45,16 @@ get_move(Board, Position, 2, Move):-get_surround(Position,Index),Index =\= 0,
 		carry_resource(Board,2), Position =\= Index, not(get_element_at_position(Board, Index, resource)),
         not(get_element_at_position(Board,Index,walls)), 
         not(get_element_at_position(Board,Index,p1)), Move=Index.
+        	% special get_move pour les bases joueur 1
+get_move(Board, Position, 1, Move):- get_surround(Position,Index),Index =\= 0,
+		carry_resource(Board,1), Position =\= Index, b_getval(b1,X), X is Index,
+        not(get_element_at_position(Board,Index,walls)), 
+        not(get_element_at_position(Board,Index,p2)), Move=Index.
+	% special get_move pour les bases joueur 2
+get_move(Board, Position, 2, Move):- get_surround(Position,Index),Index =\= 0,
+		carry_resource(Board,2), Position =\= Index, b_getval(b2,Y), Y is Index,
+        not(get_element_at_position(Board,Index,walls)), 
+        not(get_element_at_position(Board,Index,p1)), Move=Index.
 
 		
 		
