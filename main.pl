@@ -11,11 +11,11 @@
 
 % ants.
 % Launch the game with the default map
-ants :- board:board(Board), write('Initial board is :     '),display_board(Board),game(Board,1).
+ants :- board:board(Board), write('Initial board is :     '),pos_p1(Board,J1),b_setval(b1, J1),pos_p2(Board,J2),b_setval(b2, J2),display_board(Board),game(Board,1).
 
 % ants(+Board).
 % Launch the game with a custom Board loaded from a file
-ants(Board, Size) :- load(Board, Size), ants.
+ants(Board, Size) :- load(Board, Size),ants.
 
 
 % ----------------------------------------
@@ -25,9 +25,9 @@ ants(Board, Size) :- load(Board, Size), ants.
 % win(+Player, +Board).
 % Is true when a player win
 
-% Official !!!
-% win(1,Board) :- not(has_ressource(Board,1)).
-% win(2,Board) :- not(has_ressource(Board,2)).
+% Official !!! Déjà Testé et CA MARCHE !
+% win(1,Board) :- b_getval(b1,X), b_getval(b2,Y), resources:not_resources(Board,X,Y), board:resources(Board,Res), length(Res,LongR), delete(Res,Y,T), length(T,Long1), Long1>(LongR/2).
+% win(2,Board) :- b_getval(b1,X), b_getval(b2,Y), resources:not_resources(Board,X,Y), board:resources(Board,Res), length(Res,LongR), delete(Res,X,T), length(T,Long2), Long2>(LongR/2).
 win(1,Board) :- pos_p1(Board,P),P=10 .
 win(2,Board) :- pos_p2(Board,P),P=10 .
 

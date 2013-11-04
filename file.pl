@@ -45,6 +45,7 @@ save_board(Board, Stream) :- write(Stream, '\n'), save_element(Board, 1, Stream)
 
 % save_element(+Board, +Index, +Stream)
 % Save the element at the selected index ( begin at 1 ) into a stream
+
 save_element(_, Index, Stream) :- board_length(Length), Index > Length * Length, write(Stream, '\n'). 
 save_element(Board, Index, Stream) :- get_element_at_position(Board, Index, p1), 
                                 write(Stream, '1'), 
@@ -54,6 +55,9 @@ save_element(Board, Index, Stream) :- get_element_at_position(Board, Index, p2),
                                 NewIndex is Index+1, next_display(Index, Stream), save_element(Board , NewIndex, Stream).
 save_element(Board, Index, Stream) :- get_element_at_position(Board, Index, walls), 
                                 write(Stream, 'W'), 
+                                NewIndex is Index+1, next_display(Index, Stream), save_element(Board , NewIndex, Stream).
+save_element(Board, Index, Stream) :- get_element_at_position(Board, Index, resource), 
+                                write(Stream, 'R'), 
                                 NewIndex is Index+1, next_display(Index, Stream), save_element(Board , NewIndex, Stream).
 save_element(Board, Index, Stream) :-  write(Stream, '_'), 
                                 NewIndex is Index+1, next_display(Index, Stream), save_element(Board , NewIndex, Stream).
@@ -83,9 +87,9 @@ read_element(Stream, RawBoard) :- read_line_to_codes(Stream,RawBoard_loaded), ap
 % ASCII Code:
 % W :  87, - : 45
 % 1 : 49, 2 : 50
-% R : 82, S : 83
+% R : 82
 % B : 66, C : 67
-% / : 47, espace : 32
+%slash : 47, espace : 32
 % 0 : 48 -> 9 : 57
 
 % ---------- Transforming a list of char into a board ----------------
@@ -96,13 +100,14 @@ find_indexes(RawBoard) :-
 	% Walls
 	find_items(Walls, RawBoard, 87),
 	% J1, J2
+
 	nth1(IndexJ1,RawBoard,49), nth1(IndexJ2,RawBoard,50),
 	% R, S
 	find_items(IndexR, RawBoard, 82), find_items(IndexS, RawBoard, 83),
 	% B, C
 	%	nth0(IndexB,Rawboard,66), nth0(IndexC,Rawboard,67),
 	% Call board update
-	update_board([IndexJ1, IndexJ2, Walls, IndexR, IndexS]).
+	update_board([IndexJ1, IndexJ2, Walls, IndexR]).
 
 % update_board(+RawBoard)
 % Update the board predicate with the new one

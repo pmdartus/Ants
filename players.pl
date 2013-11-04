@@ -18,8 +18,8 @@ available_moves(Board,2,Moves) :-
 
 % update_user_position(+Board, +Player, +NewPosition, -NewBoard)
 % Update the postion of the selected user and return it into NewBoard 
-update_user_position([_, Pos2, Walls, R1, R2], 1, NewPosition, [NewPosition, Pos2, Walls, R1, R2]) :- write('Player 1 move to :'), write(NewPosition), nl.
-update_user_position([Pos1, _, Walls, R1, R2], 2, NewPosition, [Pos1, NewPosition, Walls, R1, R2]) :- write('Player 2 move to :'), write(NewPosition), nl.
+update_user_position([_, Pos2, Walls, R], 1, NewPosition, [NewPosition, Pos2, Walls, R]) :- write('Player 1 move to :'), write(NewPosition), nl.
+update_user_position([Pos1, _, Walls, R], 2, NewPosition, [Pos1, NewPosition, Walls, R]) :- write('Player 2 move to :'), write(NewPosition), nl.
 
 
 % ----------------------------------------
@@ -28,25 +28,37 @@ update_user_position([Pos1, _, Walls, R1, R2], 2, NewPosition, [Pos1, NewPositio
 
 % get_move(+Board, +Position, +Player, -Move)
 % Returns the possible moves
-% /!\ Check for current position if it is available
+% Check for current position if it is available
 get_move(Board, Position, 1, Move):-get_surround(Position,Index),Index =\= 0,
 		not(carry_resource(Board,1)), 
         not(get_element_at_position(Board,Index,walls)), 
         not(get_element_at_position(Board,Index,p2)), Move=Index.
 get_move(Board, Position, 1, Move):-get_surround(Position,Index),Index =\= 0,
-		carry_resource(Board,1), Position =\= Index, not(get_element_at_position(Board, Index, resource1)),
+		carry_resource(Board,1), Position =\= Index, not(get_element_at_position(Board, Index, resource)),
         not(get_element_at_position(Board,Index,walls)), 
         not(get_element_at_position(Board,Index,p2)), Move=Index.
-
 get_move(Board, Position, 2, Move):-get_surround(Position,Index),Index =\= 0, 
 		not(carry_resource(Board,2)),
         not(get_element_at_position(Board,Index,walls)), 
         not(get_element_at_position(Board,Index,p1)), Move=Index.
 get_move(Board, Position, 2, Move):-get_surround(Position,Index),Index =\= 0, 
-		carry_resource(Board,2), Position =\= Index, not(get_element_at_position(Board, Index, resource2)),
+		carry_resource(Board,2), Position =\= Index, not(get_element_at_position(Board, Index, resource)),
+        not(get_element_at_position(Board,Index,walls)), 
+        not(get_element_at_position(Board,Index,p1)), Move=Index.
+        	% special get_move pour les bases joueur 1
+get_move(Board, Position, 1, Move):- get_surround(Position,Index),Index =\= 0,
+		carry_resource(Board,1), Position =\= Index, b_getval(b1,X), X is Index,
+        not(get_element_at_position(Board,Index,walls)), 
+        not(get_element_at_position(Board,Index,p2)), Move=Index.
+	% special get_move pour les bases joueur 2
+get_move(Board, Position, 2, Move):- get_surround(Position,Index),Index =\= 0,
+		carry_resource(Board,2), Position =\= Index, b_getval(b2,Y), Y is Index,
         not(get_element_at_position(Board,Index,walls)), 
         not(get_element_at_position(Board,Index,p1)), Move=Index.
 
+		
+		
+		
 % get_surround( +Position, -Index)
 % Returns positions of the surroundings for a given cardinal
 % Left
