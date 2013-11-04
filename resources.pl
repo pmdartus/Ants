@@ -1,8 +1,6 @@
 :- module(ressources,[
 	carry_resource/2,
-	not_resources/3,
-	wintest/2,
-	init/2
+	not_resources/3
 	]).
 
 % ----------------------------------------
