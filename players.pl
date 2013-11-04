@@ -24,12 +24,12 @@ update_user_position([Pos1, Pos2, Walls, R], 2, NewPosition, [Pos1, NewPosition,
 % Carrying a resource
 update_user_position([Pos1, Pos2, Walls, R0], 1, NewPosition, [NewPosition, Pos2, Walls, R]) :- 
 	carry_resource([Pos1, Pos2, Walls, R0],1),
-	update_resource_position(R0, Pos1, NewPosition, R),
+	update_resource_position(R0, 1, Pos1, NewPosition, R),
 	write('Player 1 move and carry resource to :'), write(NewPosition), nl.
 
 update_user_position([Pos1, Pos2, Walls, R0], 2, NewPosition, [Pos1, NewPosition, Walls, R]) :- 
 	carry_resource([Pos1, Pos2, Walls, R0],2), 
-	update_resource_position(R0, Pos2, NewPosition, R),
+	update_resource_position(R0, 2, Pos2, NewPosition, R),
 	write('Player 2 move and carry resource to :'), write(NewPosition), nl.
 
 
