@@ -1,5 +1,6 @@
 :- module(ressources,[
 	carry_resource/2,
+	update_resource_position/4,
 	not_resources/3
 	]).
 
@@ -7,7 +8,9 @@
 %           Public Methods
 % ----------------------------------------
 
-
+% update_resource_position(+Ressources, +ActPosition, +NewPos, -NewRessource)
+% Return new array of ressources, with the selected ressource postion update
+update_resource_position(R0, OldPos, NewPos, [NewPos|R]) :- delete(R0, OldPos, R).
 
 % Prise de la ressource
 
