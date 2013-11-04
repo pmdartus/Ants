@@ -55,7 +55,6 @@ The program run on `swi-prolog` [Download](http://www.swi-prolog.org/download/st
 * To load a map without launching the whole program, here are the steps you need to follow:
 
 ...
-
 	swipl -s main.pl : compiles the executables and launches the interface
 	load("[nameofyourmap].bo",[size]) : loads the map and displays it. Do not copy the "[". [size] is the size of one 
 ...
