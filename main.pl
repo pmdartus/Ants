@@ -14,8 +14,8 @@
 ants :- board:board(Board), write('Initial board is :     '),pos_p1(Board,J1),b_setval(b1, J1),pos_p2(Board,J2),b_setval(b2, J2),display_board(Board),game(Board,1).
 
 % ants(+Board).
-% Launch the game with a custom Board
-ants(Board) :- write('Initial board is :     '),pos_p1(Board,J1),b_setval(b1, J1),pos_p2(Board,J2),b_setval(b2, J2),display_board(Board),nl,game(Board,1).
+% Launch the game with a custom Board loaded from a file
+ants(Board, Size) :- load(Board, Size),ants.
 
 
 % ----------------------------------------
