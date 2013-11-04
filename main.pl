@@ -28,16 +28,14 @@ ants(Board, Size) :- load(Board, Size),ants.
 % Official !!! Déjà Testé et CA MARCHE !
 win(1,Board) :- b_getval(b1,X), b_getval(b2,Y), resources:not_resources(Board,X,Y), board:resources(Board,Res), length(Res,LongR), delete(Res,Y,T), length(T,Long1), Long1>(LongR/2).
 win(2,Board) :- b_getval(b1,X), b_getval(b2,Y), resources:not_resources(Board,X,Y), board:resources(Board,Res), length(Res,LongR), delete(Res,X,T), length(T,Long2), Long2>(LongR/2).
-%win(1,Board) :- pos_p1(Board,P),P=10 .
-%win(2,Board) :- pos_p2(Board,P),P=10 .
 
 % play1(+Board, ?NewBoard).
 % Make a turn for the user 1, it returns the new Board with a changes executed during this turn
-play1(Board , NewBoard) :- available_moves(Board, 1, Moves), write('Moves available for 1: '), write(Moves), nl, ai_basic:play(Board, 1, Moves, NewBoard), display_board(NewBoard), nl.
+play1(Board , NewBoard) :- available_moves(Board, 1, Moves), write('Moves available for 1: '), write(Moves), nl, ai_basic:play(Board, 1, Moves, NewBoard), write(NewBoard), display_board(NewBoard), nl.
 
 % play2(+Board, ?NewBoard).
 % Make a turn for the user 2, it returns the new Board with a changes executed during this turn
-play2(Board , NewBoard) :- available_moves(Board, 2, Moves), write('Moves available for 2: '), write(Moves), nl, ai_basic:play(Board, 2, Moves, NewBoard), display_board(NewBoard), nl.
+play2(Board , NewBoard) :- available_moves(Board, 2, Moves), write('Moves available for 2: '), write(Moves), nl, ai_basic:play(Board, 2, Moves, NewBoard), write(NewBoard), display_board(NewBoard), nl.
 
 % game(+Board, +Player).
 % Change the player turn and verify first if a player won the game during the last turn
