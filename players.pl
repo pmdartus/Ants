@@ -34,7 +34,7 @@ get_move(Board, Position, 1, Move):-get_surround(Position,Index),Index =\= 0,
         not(get_element_at_position(Board,Index,walls)), 
         not(get_element_at_position(Board,Index,p2)), Move=Index.
 get_move(Board, Position, 1, Move):-get_surround(Position,Index),Index =\= 0,
-		carry_resource(Board,1), Position =\= Index, not(get_element_at_position(Board, Index, resource1)),
+		carry_resource(Board,1), Position =\= Index, not(get_element_at_position(Board, Index, resource)),
         not(get_element_at_position(Board,Index,walls)), 
         not(get_element_at_position(Board,Index,p2)), Move=Index.
 get_move(Board, Position, 2, Move):-get_surround(Position,Index),Index =\= 0, 
@@ -42,7 +42,7 @@ get_move(Board, Position, 2, Move):-get_surround(Position,Index),Index =\= 0,
         not(get_element_at_position(Board,Index,walls)), 
         not(get_element_at_position(Board,Index,p1)), Move=Index.
 get_move(Board, Position, 2, Move):-get_surround(Position,Index),Index =\= 0, 
-		carry_resource(Board,2), Position =\= Index, not(get_element_at_position(Board, Index, resource2)),
+		carry_resource(Board,2), Position =\= Index, not(get_element_at_position(Board, Index, resource)),
         not(get_element_at_position(Board,Index,walls)), 
         not(get_element_at_position(Board,Index,p1)), Move=Index.
 
