@@ -1,6 +1,6 @@
 :- module(pathfinding,[
 	path/6,
-        shortest_path/6
+        shortest_p/8
 	]).
 
 % TODO : use new accessible prediacte in order to find shortest paths : 
