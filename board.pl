@@ -57,15 +57,24 @@ display_board(Board) :- nl, display_element(Board, 1).
 
 % display_element(+Board, +Index)
 % Display the element at the selected index ( begin at 1 )
-display_element(_, Index) :- board:board_length(Length), Index > Length * Length, nl. 
+display_element(_, Index) :- board:board_length(Length), Index > Length * Length, nl.
+
 display_element(Board, Index) :- get_element_at_position(Board, Index, p1), 
                                 display_if_carrying(Board, 1),
                                 NewIndex is Index+1, next_display(Index), display_element(Board , NewIndex).
 display_element(Board, Index) :- get_element_at_position(Board, Index, p2),  
-                                ansi_format([fg(red)], '2', []), 
+                                display_if_carrying(Board, 2),
                                 NewIndex is Index+1, next_display(Index), display_element(Board , NewIndex).
+
+display_element(Board, Index) :- b_getval(b1,X), X == Index, 
+                                ansi_format([bg(green)], ' ', []),  
+                                NewIndex is Index+1, next_display(Index), display_element(Board , NewIndex).
+display_element(Board, Index) :- b_getval(b2,X), X == Index, 
+                                ansi_format([bg(red)], ' ', []),  
+                                NewIndex is Index+1, next_display(Index), display_element(Board , NewIndex).
+
 display_element(Board, Index) :- get_element_at_position(Board, Index, walls), 
-                                ansi_format([bg(cyan)], ' ', []), 
+                                ansi_format([fg(cyan), bg(cyan)], 'M', []), 
                                 NewIndex is Index+1, next_display(Index), display_element(Board , NewIndex).
 display_element(Board, Index) :- get_element_at_position(Board, Index, resource), 
                                 ansi_format([fg(blue)], '*', []),  

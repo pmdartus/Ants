@@ -77,10 +77,10 @@ next_display(_, Stream) :- write(Stream, ' ').
 read_element(Stream, RawBoard) :-
 	at_end_of_stream(Stream),
 	find_indexes(RawBoard),
-	board:board(Board),
+	board:board(Board).
 	%DEBUG
 	%write(Board),
-	display_board(Board).
+	%display_board(Board).
 read_element(Stream, RawBoard) :- read_line_to_codes(Stream,RawBoard_loaded), append(RawBoard, RawBoard_loaded, RawBoard_new), !, read_element(Stream, RawBoard_new).
 
 
