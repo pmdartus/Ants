@@ -29,7 +29,12 @@ ants(Board, Size) :- load(Board, Size),log_board_name(Board) ,ants.
 % Official !!! Déjà Testé et CA MARCHE !
 win(1,Board) :- b_getval(b1,X), b_getval(b2,Y), resources:not_resources(Board,X,Y), board:resources(Board,Res), length(Res,LongR), delete(Res,Y,T), length(T,Long1), Long1>(LongR/2),Points1 is Long1,Points2 is LongR-Long1, log_points(Points1,Points2).
 win(2,Board) :- b_getval(b1,X), b_getval(b2,Y), resources:not_resources(Board,X,Y), board:resources(Board,Res), length(Res,LongR), delete(Res,X,T), length(T,Long2), Long2>(LongR/2),Points2 is Long2,Points1 is LongR-Long2, log_points(Points1,Points2).
+%TODO : on y est presque
+win(2,Board) :- b_getval(b1,X), b_getval(b2,Y),pos_p1(Board,PJ1),P1 \= X,not(pathfinding:accessible(Board,X,1,PJ1)),!,write('bloc'),nl.
+win(1,Board) :- b_getval(b1,X), b_getval(b2,Y),pos_p2(Board,PJ2),P2 \= Y,not(pathfinding:accessible(Board,Y,1,PJ2)),!,write('bloc'),nl.
+
 win(null,Board) :- b_getval(b1,X), b_getval(b2,Y), resources:not_resources(Board,X,Y), board:resources(Board,Res), length(Res,LongR), delete(Res,X,T), length(T,Long2), LongR =:= (Long2*2), log_points(0,0).
+
 % TODO : Add : win when there no longer exist a path between all remaining resources and a base
 % ie : the remaining resources are impossible to bring to a base
 
