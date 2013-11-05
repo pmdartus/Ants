@@ -18,7 +18,8 @@
 path(Board,A,J,B,Path,Length) :- path(Board,A,J,B,[],Path,Length).
 
 
-% checks for accessible before launching one of both shortest_p methods
+% checks for accessible before launching one of both shortest_p methods.
+% example: board:board(Board),appel(Board,21,1,26,[],Path,Length,1).
 appel(Board,A,J,B,Nodes,Path,Length,Max) :- accessible(Board,A,J,B),first_shortest_p(Board,A,J,B,Nodes,Path,Length,Max).
 
 
