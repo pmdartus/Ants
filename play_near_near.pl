@@ -1,4 +1,4 @@
-:- module(play_basic_basic,[
+:- module(play_near_near,[
 	play1/2, play2/2
 	]).
 
