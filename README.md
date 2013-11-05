@@ -58,3 +58,21 @@ The program run on `swi-prolog` [Download](http://www.swi-prolog.org/download/st
 	swipl -s main.pl : compiles the executables and launches the interface
 	load("[nameofyourmap].bo",[size]) : loads the map and displays it. Do not copy the "[". [size] is the size of one 
 ...
+
+
+### Benchmarking (python)
+
+`runAnts.py` allows you to run couple games in a row, with the logs and the results.
+
+#### Set the IA
+
+In `main.pl` at line 12, you can choose which IA you are using:
+```
+:-  use_module(play_IAJoueur1_IAJoueur2).
+```
+Where IAJoueur can be basic, spf or near.
+
+```
+	python runAnts.py									Launch it with default board
+	python runAnts.py '13x13.bo' 13		Launch it with a custom board
+```
