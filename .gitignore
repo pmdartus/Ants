@@ -4,4 +4,4 @@
 
 log.txt
 results.csv
-games/*
+games/log*
