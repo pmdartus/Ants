@@ -1,5 +1,6 @@
 :-  use_module(ai_basic).
 :-  use_module(ai_spf).
+:-  use_module(ai_spf_near).
 :-  use_module(ai_compare_paths).
 :-  use_module(board).
 :-  use_module(players).
