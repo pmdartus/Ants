@@ -7,10 +7,7 @@
 
 % play(+Board, +Player, +Move, -NewBoard)
 % Return in new Board, the next position of the player
-play(Board, Player, Moves, Board):- 
-    length(Moves, N),
-    N == 0,
-    write('pass').
+
 
 play(Board, 1, Moves, NewBoard):-
     not(carry_resource(Board, 1)),
@@ -28,6 +25,12 @@ play(Board, 1, Moves, NewBoard):-
     write('Aim for base '),write(B1),nl,
     write('I should move to '), write(PH),nl,
     update_user_position(Board, 1, PH, NewBoard).
+
+play(Board, 1, Moves, NewBoard):-
+    pos_p2(Board,PJ2),b_getval(b2,B2),   
+    pathfinding:appel(Board,PJ2,1,B2,[],[PH|PT],Leng,1),
+    write('I should put a wall @ '),write(PH),nl,
+    place_wall(Board, 1, PH, NewBoard).
 
 play(Board,1,Moves,Board) :- write('I pass'),nl.
 
