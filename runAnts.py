@@ -1,9 +1,11 @@
 import os,sys
-if(1==sys.argv.count):
-    mapname=sys.argv[0]
+if(2==sys.argv.count):
+	  mapname=sys.argv[0]
+	  mapsize=sys.argv[1]
+	  call = 'ants('+mapname+', '+mapsize+')'
 else:
-    mapname=''
+		call = 'ants'
 
-for i in range(0,10):
-	cmd = 'swipl -s main.pl -g "ants'+mapname+' , halt." > games/log_'+`i`+'.txt '
+for i in range(0,4):
+	cmd = '(swipl -s main.pl -g "'+call+', halt." > games/log_'+`i`+'.txt )&'
 	os.system(cmd)
