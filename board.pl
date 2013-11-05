@@ -59,16 +59,16 @@ display_board(Board) :- nl, display_element(Board, 1).
 % Display the element at the selected index ( begin at 1 )
 display_element(_, Index) :- board:board_length(Length), Index > Length * Length, nl. 
 display_element(Board, Index) :- get_element_at_position(Board, Index, p1), 
-                                write('1'), 
+                                display_if_carrying(Board, 1),
                                 NewIndex is Index+1, next_display(Index), display_element(Board , NewIndex).
 display_element(Board, Index) :- get_element_at_position(Board, Index, p2),  
-                                write('2'), 
+                                ansi_format([fg(red)], '2', []), 
                                 NewIndex is Index+1, next_display(Index), display_element(Board , NewIndex).
 display_element(Board, Index) :- get_element_at_position(Board, Index, walls), 
-                                write('M'), 
+                                ansi_format([bg(cyan)], ' ', []), 
                                 NewIndex is Index+1, next_display(Index), display_element(Board , NewIndex).
 display_element(Board, Index) :- get_element_at_position(Board, Index, resource), 
-                                write('R'), 
+                                ansi_format([fg(blue)], '*', []),  
                                 NewIndex is Index+1, next_display(Index), display_element(Board , NewIndex).
 display_element(Board, Index) :-  write(' '), 
                                 NewIndex is Index+1, next_display(Index), display_element(Board , NewIndex).
@@ -76,4 +76,11 @@ display_element(Board, Index) :-  write(' '),
 % next_display(+Index)
 % Select if the at this index it should break or not
 next_display(Index) :- board:board_length(Length), Index mod Length =:= 0, nl. 
-next_display(_) :- write(' '). 
+next_display(_) :- write(''). 
+
+% display_if_carrying(+Player)
+display_if_carrying(Board, 1) :- carry_resource(Board, 1), ansi_format([underline, fg(green)], '1', []).
+display_if_carrying(Board, 1) :- not(carry_resource(Board, 1)), ansi_format([fg(green)], '1', []).
+
+display_if_carrying(Board, 2) :- carry_resource(Board, 1), ansi_format([underline, fg(red)], '2', []).
+display_if_carrying(Board, 2) :- not(carry_resource(Board, 1)), ansi_format([fg(red)], '2', []).
