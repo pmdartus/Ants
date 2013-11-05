@@ -6,7 +6,7 @@
 play(Board, 1, Moves, NewBoard):-
     not(carry_resource(Board, 1)),
     pos_p1(Board,PJ1),b_getval(b1,B1),b_getval(b2,B2),
-    board:resources(Board,Res),length(Res,Long)
+    board:resources(Board,Res),length(Res,Long),
 	far_ressource(Res,PJ1,LongRes,0,1,0,Pr), Pr \=B1,Pr \=B2,
     pathfinding:appel(Board,PJ1,1,Pr,[],[PH|PT],Leng,1),
     write('Aim for resource '),write(Pr),nl,
