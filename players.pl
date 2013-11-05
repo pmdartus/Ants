@@ -18,8 +18,19 @@ available_moves(Board,2,Moves) :-
 
 % update_user_position(+Board, +Player, +NewPosition, -NewBoard)
 % Update the postion of the selected user and return it into NewBoard 
-update_user_position([_, Pos2, Walls, R], 1, NewPosition, [NewPosition, Pos2, Walls, R]) :- write('Player 1 move to :'), write(NewPosition), nl.
-update_user_position([Pos1, _, Walls, R], 2, NewPosition, [Pos1, NewPosition, Walls, R]) :- write('Player 2 move to :'), write(NewPosition), nl.
+% Not carring resource
+update_user_position([Pos1, Pos2, Walls, R], 1, NewPosition, [NewPosition, Pos2, Walls, R]) :- not(carry_resource([Pos1, Pos2, Walls, R],1)),write('Player 1 move to :'), write(NewPosition), nl.
+update_user_position([Pos1, Pos2, Walls, R], 2, NewPosition, [Pos1, NewPosition, Walls, R]) :- not(carry_resource([Pos1, Pos2, Walls, R],2)),write('Player 2 move to :'), write(NewPosition), nl.
+% Carrying a resource
+update_user_position([Pos1, Pos2, Walls, R0], 1, NewPosition, [NewPosition, Pos2, Walls, R]) :- 
+	carry_resource([Pos1, Pos2, Walls, R0],1),
+	update_resource_position(R0, 1, Pos1, NewPosition, R),
+	write('Player 1 move and carry resource to :'), write(NewPosition), nl.
+
+update_user_position([Pos1, Pos2, Walls, R0], 2, NewPosition, [Pos1, NewPosition, Walls, R]) :- 
+	carry_resource([Pos1, Pos2, Walls, R0],2), 
+	update_resource_position(R0, 2, Pos2, NewPosition, R),
+	write('Player 2 move and carry resource to :'), write(NewPosition), nl.
 
 
 % ----------------------------------------
