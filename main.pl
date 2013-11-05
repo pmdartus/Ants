@@ -1,10 +1,12 @@
 :-  use_module(ai_basic).
 :-  use_module(ai_spf).
+:-  use_module(ai_compare_paths).
 :-  use_module(board).
 :-  use_module(players).
 :-  use_module(file).
 :-  use_module(resources).
 :-  use_module(pathfinding).
+
 
 % ----------------------------------------
 %           Public Methods
@@ -42,7 +44,9 @@ win(null,Board) :- b_getval(b1,X), b_getval(b2,Y), resources:not_resources(Board
 % play1(+Board, ?NewBoard).
 % Make a turn for the user 1, it returns the new Board with a changes executed during this turn
 %play1(Board , NewBoard) :- available_moves(Board, 1, Moves), write('Moves available for 1: '), write(Moves), nl, ai_basic:play(Board, 1, Moves, NewBoard), write('The new board is :'), write(NewBoard), display_board(NewBoard), nl.
-play1(Board , NewBoard) :- available_moves(Board, 1, Moves), write('Moves available for 1: '), write(Moves), nl, ai_spf:play(Board, 1, Moves, NewBoard), write('The new board is :'), write(NewBoard), display_board(NewBoard), nl.
+%play1(Board , NewBoard) :- available_moves(Board, 1, Moves), write('Moves available for 1: '), write(Moves), nl, ai_spf:play(Board, 1, Moves, NewBoard), write('The new board is :'), write(NewBoard), display_board(NewBoard), nl.
+play1(Board , NewBoard) :- available_moves(Board, 1, Moves), write('Moves available for 1: '), write(Moves), nl, ai_compare_paths:play(Board, 1, Moves, NewBoard), write('The new board is :'), write(NewBoard), display_board(NewBoard), nl.
+
 
 % play2(+Board, ?NewBoard).
 % Make a turn for the user 2, it returns the new Board with a changes executed during this turn
