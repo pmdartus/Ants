@@ -20,7 +20,7 @@ ants :- board:board(Board), write('Initial board is :     '),pos_p1(Board,J1),b_
 
 % ants(+Board).
 % Launch the game with a custom Board loaded from a file
-ants(Board, Size) :- load(Board, Size),log_board_name(Board) ,ants.
+ants(Board, Size) :- load(Board, Size),log_board_name(Board),ants.
 
 
 % ----------------------------------------
@@ -69,5 +69,5 @@ game(Board , 2) :- play2(Board , NewBoard), game(NewBoard , 1).
 % Format of log files : 
 % 1 line per game
 % name of board, points for player 1, points for player 2
-log_board_name(Board) :- open('results.csv', append, Handle), write(Handle, Board),write(Handle, ','), close(Handle).
-log_points(Points1,Points2) :- open('results.csv', append, Handle), write(Handle, Points1),write(Handle, ','), write(Handle, Points2),write(Handle, '\n'), close(Handle).
+log_board_name(Board) :- open('games/results.csv', append, Handle), write(Handle, Board),write(Handle, ','), close(Handle).
+log_points(Points1,Points2) :- open('games/results.csv', append, Handle), write(Handle, Points1),write(Handle, ','), write(Handle, Points2),write(Handle, '\n'), close(Handle).

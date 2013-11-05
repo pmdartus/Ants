@@ -9,6 +9,6 @@ else:
 
 print call
 
-for i in range(0,1):
-	cmd = 'swipl -s main.pl -g "'+call+', halt." > games/log_'+`i`+'.txt'
+for i in range(0,4):
+	cmd = '(swipl -s main.pl -g "'+call+', halt." > games/log_'+`i`+'.txt)&'
 	os.system(cmd)
