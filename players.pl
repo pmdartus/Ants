@@ -1,6 +1,7 @@
 :- module(players,[
 	available_moves/3,
-	update_user_position/4
+	update_user_position/4,
+        place_wall/4
 	]).
 
 % ----------------------------------------
@@ -31,6 +32,8 @@ update_user_position([Pos1, Pos2, Walls, R0], 2, NewPosition, [Pos1, NewPosition
 	carry_resource([Pos1, Pos2, Walls, R0],2), 
 	update_resource_position(R0, 2, Pos2, NewPosition, R),
 	write('Player 2 move and carry resource to :'), write(NewPosition), nl.
+
+place_wall([Pos1, Pos2, Walls, R], _, WallPosition, [Pos1, Pos2, [WallPosition|Walls], R]) :- write('Place wall at : '), write(WallPosition), nl.
 
 
 % ----------------------------------------

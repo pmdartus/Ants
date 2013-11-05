@@ -7,6 +7,11 @@
 
 % play(+Board, +Player, +Move, -NewBoard)
 % Return in new Board, the next position of the player
+play(Board, Player, Moves, Board):- 
+    length(Moves, N),
+    N == 0,
+    write('pass').
+
 play(Board, Player, Moves, NewBoard):-
 	length(Moves, Length),
 	Index is random(Length),

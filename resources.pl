@@ -11,8 +11,8 @@
 % update_resource_position(+Ressources, +NumPlayer, +ActPosition, +NewPos, -NewRessource)
 % Return new array of ressources, with the selected ressource postion update
 % Check if the user has to update the ressource position in case of a resource on the base
-update_resource_position(R0, 1, OldPos, _, R0) :- b_getval(b1,X), X == OldPos, !.
-update_resource_position(R0, 2, OldPos, _, R0) :- b_getval(b2,X), X == OldPos, !.
+update_resource_position(R0, 1, OldPos, _, R0) :- b_getval(b1,X), X == OldPos, write('Player 1 dropped resource'),nl, !.
+update_resource_position(R0, 2, OldPos, _, R0) :- b_getval(b2,X), X == OldPos, write('Player 2 dropped resource'),nl, !.
 % Normal resource position update
 update_resource_position(R0, _, OldPos, NewPos, [NewPos|R]) :- delete(R0, OldPos, R).
 
