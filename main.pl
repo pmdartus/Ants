@@ -1,10 +1,14 @@
 :-  use_module(ai_basic).
 :-  use_module(ai_spf).
+:-  use_module(ai_compare_paths).
 :-  use_module(board).
 :-  use_module(players).
 :-  use_module(file).
 :-  use_module(resources).
 :-  use_module(pathfinding).
+
+%Choose IA for player 1 & 2.
+:-  use_module(play_basic_basic).
 
 % ----------------------------------------
 %           Public Methods
@@ -54,15 +58,6 @@ get_winner(Board, null) :-
 display_winner(1) :- write('/////// Player 1 win /////////').
 display_winner(2) :- write('/////// Player 2 win /////////').
 display_winner(null) :- write('/////// Match null /////////').
-
-% play1(+Board, ?NewBoard).
-% Make a turn for the user 1, it returns the new Board with a changes executed during this turn
-%play1(Board , NewBoard) :- available_moves(Board, 1, Moves), write('Moves available for 1: '), write(Moves), nl, ai_basic:play(Board, 1, Moves, NewBoard), write('The new board is :'), write(NewBoard), display_board(NewBoard), nl.
-play1(Board , NewBoard) :- available_moves(Board, 1, Moves), write('Moves available for 1: '), write(Moves), nl, ai_spf:play(Board, 1, Moves, NewBoard), write('The new board is :'), write(NewBoard), display_board(NewBoard), nl.
-
-% play2(+Board, ?NewBoard).
-% Make a turn for the user 2, it returns the new Board with a changes executed during this turn
-play2(Board , NewBoard) :- available_moves(Board, 2, Moves), write('Moves available for 2: '), write(Moves), nl, ai_basic:play(Board, 2, Moves, NewBoard), write('The new board is :'), write(NewBoard), display_board(NewBoard), nl.
 
 % game(+Board, +Player).
 % Change the player turn and verify first if a player won the game during the last turn

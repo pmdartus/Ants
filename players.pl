@@ -33,7 +33,12 @@ update_user_position([Pos1, Pos2, Walls, R0], 2, NewPosition, [Pos1, NewPosition
 	update_resource_position(R0, 2, Pos2, NewPosition, R),
 	write('Player 2 move and carry resource to :'), write(NewPosition), nl.
 
-place_wall([Pos1, Pos2, Walls, R], _, WallPosition, [Pos1, Pos2, [WallPosition|Walls], R]) :- write('Place wall at : '), write(WallPosition), nl.
+place_wall([Pos1, Pos2, Walls, R], _, WallPosition, [Pos1, Pos2, [WallPosition|Walls], R]) :-
+	WallPosition \= Pos1, WallPosition \= Pos2,
+	b_getval(b1, B1), b_getval(b2, B2),
+	WallPosition \= B1, WallPosition \= B2,
+	not(nth0(I, R, WallPosition)),
+	write('Place wall at : '), write(WallPosition), nl.
 
 
 % ----------------------------------------
