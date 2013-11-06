@@ -59,7 +59,7 @@ save_element(Board, Index, Stream) :- get_element_at_position(Board, Index, wall
 save_element(Board, Index, Stream) :- get_element_at_position(Board, Index, resource), 
                                 write(Stream, 'R'), 
                                 NewIndex is Index+1, next_display(Index, Stream), save_element(Board , NewIndex, Stream).
-save_element(Board, Index, Stream) :-  write(Stream, '_'), 
+save_element(Board, Index, Stream) :-  write(Stream, '-'), 
                                 NewIndex is Index+1, next_display(Index, Stream), save_element(Board , NewIndex, Stream).
 
 % next_display(+Index)
