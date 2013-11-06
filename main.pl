@@ -1,15 +1,24 @@
-:-  use_module(ai_basic).
-:-  use_module(ai_spf).
-:-  use_module(ai_spf_near).
-:-  use_module(ai_compare_paths).
+%Global modules
 :-  use_module(board).
 :-  use_module(players).
 :-  use_module(file).
 :-  use_module(resources).
 :-  use_module(pathfinding).
 
-%Choose IA for player 1 & 2.
-:-  use_module(play_spf_basic).
+% IA Implementations
+:-  use_module(ai_basic).
+:-  use_module(ai_spf).
+:-  use_module(ai_spf_near).
+:-  use_module(ai_compare_paths).
+
+% Choose IA for player 1 & 2.
+%:-  use_module(play_basic_basic).
+%:-  use_module(play_compare_basic).
+:-  use_module(play_near_basic).
+%:-  use_module(play_near_near).
+%:-  use_module(play_spf_basic).
+%:-  use_module(play_near_spf).
+%:-  use_module(play_spf_spf).
 
 % ----------------------------------------
 %           Public Methods
@@ -17,7 +26,11 @@
 
 % ants.
 % Launch the game with the default map
-ants :- board:board(Board), write('Initial board is :     '),pos_p1(Board,J1),b_setval(b1, J1),pos_p2(Board,J2),b_setval(b2, J2),display_board(Board),game(Board,1).
+ants :- board:board(Board),
+	pos_p1(Board,J1), b_setval(b1, J1),
+	pos_p2(Board,J2), b_setval(b2, J2),
+	write('Initial board is :     '), display_board(Board),
+	game(Board,1).
 
 % ants(+Board).
 % Launch the game with a custom Board loaded from a file

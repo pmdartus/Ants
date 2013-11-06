@@ -45,7 +45,7 @@ The program run on `swi-prolog` [Download](http://www.swi-prolog.org/download/st
 
 ```
 	swipl -s main.pl -g "ants, halt." : Launch the program with the default grid and return to terminal at the end.
-	swipl -s main.pl -g "ants('21x21.bo', 21), halt." : Launch the program with the board set in the file passed in parameter (21x21.bo) and return to terminal.
+	swipl -s main.pl -g "ants('boards/21x21.bo', 21), halt." : Launch the program with the board set in the file passed in parameter (21x21.bo) and return to terminal.
 ```
 
 ### Swi-prolog interface
@@ -74,5 +74,5 @@ Where IAJoueur can be basic, spf or near.
 
 ```
 	python runAnts.py									Launch it with default board
-	python runAnts.py '13x13.bo' 13		Launch it with a custom board
+	python runAnts.py 'boards/13x13.bo' 13		Launch it with a custom board
 ```
