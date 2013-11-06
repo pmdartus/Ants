@@ -13,8 +13,8 @@
 %:-  use_module(play_compare_basic).
 %:-  use_module(play_near_basic).
 %:-  use_module(play_near_near).
-:-  use_module(play_spf_basic).
-%:-  use_module(play_spf_near).
+%:-  use_module(play_spf_basic).
+:-  use_module(play_spf_near).
 %:-  use_module(play_spf_spf).
 
 % ----------------------------------------
