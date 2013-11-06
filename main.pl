@@ -41,6 +41,12 @@ ants(Board, Size) :- load(Board, Size),log_board_name(Board),ants.
 %           Private Methods
 % ----------------------------------------
 
+% game(+Board, +Player).
+% Change the player turn and verify first if a player won the game during the last turn
+game(Board , _) :- blocked_state(Board), get_winner(Board, X), display_winner(X), display_board(Board).
+game(Board , 1) :- play1(Board , NewBoard), game(NewBoard , 2). 
+game(Board , 2) :- play2(Board , NewBoard), game(NewBoard , 1).
+
 % blocked_state(+Board)
 % Check if the board is in a stuck state
 % No more resources
@@ -72,12 +78,6 @@ get_winner(Board, null) :-
 display_winner(1) :- write('/////// Player 1 win /////////').
 display_winner(2) :- write('/////// Player 2 win /////////').
 display_winner(null) :- write('/////// Match null /////////').
-
-% game(+Board, +Player).
-% Change the player turn and verify first if a player won the game during the last turn
-game(Board , _) :- blocked_state(Board), get_winner(Board, X), display_winner(X), display_board(Board).
-game(Board , 1) :- play1(Board , NewBoard), game(NewBoard , 2). 
-game(Board , 2) :- play2(Board , NewBoard), game(NewBoard , 1).
 
 
 % Format of log files : 
