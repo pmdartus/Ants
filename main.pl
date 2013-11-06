@@ -9,7 +9,7 @@
 :-  use_module(pathfinding).
 
 %Choose IA for player 1 & 2.
-:-  use_module(play_spf_basic).
+:-  use_module(play_spf_near).
 
 % ----------------------------------------
 %           Public Methods
